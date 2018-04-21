@@ -1,0 +1,39 @@
+% \IUref{IUAdmPS}{Administrar Planta de Selección}
+% \IUref{IUModPS}{Modificar Planta de Selección}
+% \IUref{IUEliPS}{Eliminar Planta de Selección}
+
+% 
+
+
+% Copie este bloque por cada caso de uso:
+%-------------------------------------- COMIENZA descripción del caso de uso.
+
+%\begin{UseCase}[archivo de imágen]{UCX}{Nombre del Caso de uso}{
+	\begin{UseCase}{CU6}{Registro de usuarios}{
+		Inscribir usuarios al sistema para que les sea permitido usar el sistema.
+	}
+		\UCitem{Versión}{0.1}
+		\UCitem{Actor}{Usuario administrador}
+		\UCitem{Propósito}{Que el administrador registre los usuarios que operarán el sistema.}
+		\UCitem{Resumen}{
+		El sistema muestra la pantalla de registro de usuarios, se registra en las bases de datos y este usuario registrado podrá usar el sistema.}
+		\UCitem{Entradas}{\BRref{BR04}{Campos de registro de usuario}.}
+		\UCitem{Salidas}{Registro de usuario en base de datos.}
+		\UCitem{Precondiciones}{El usuario debe tener permisos de administrador según la \BRref{BR01}{Determinar los permisos de un Usuario}.}
+		\UCitem{Postcondiciones}{El usuario registrado podrá usar el sistema.}
+		\UCitem{Autor}{Morales López Laura Andrea.}
+	\end{UseCase}
+
+	\begin{UCtrayectoria}{Principal}
+		\UCpaso Realiza el \ref{CU1Login} del \UCref{CU1}.
+
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Registrar}.
+		\UCpaso Carga la base de datos y muestra la\IUref{UI5}{Pantalla de Registro}
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Guardar y Salir}.
+		\UCpaso Despliega la \IUref{UI2}{Pantalla de Selección de Acciones} con la lista de Acciones Disponibles.
+	\end{UCtrayectoria}
+
+
+
+		
+%-------------------------------------- TERMINA descripción del caso de uso.

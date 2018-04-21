@@ -1,0 +1,39 @@
+% \IUref{IUAdmPS}{Administrar Planta de Selección}
+% \IUref{IUModPS}{Modificar Planta de Selección}
+% \IUref{IUEliPS}{Eliminar Planta de Selección}
+
+% 
+
+
+% Copie este bloque por cada caso de uso:
+%-------------------------------------- COMIENZA descripción del caso de uso.
+
+%\begin{UseCase}[archivo de imágen]{UCX}{Nombre del Caso de uso}{
+	\begin{UseCase}{CU3}{Análisis de venta y gasto}{
+		Ayudar a que los usuarios puedan analizar las ventas que han tenido, así como los gastos realizados.
+	}
+		\UCitem{Versión}{0.1}
+		\UCitem{Actor}{Usuario administrador}
+		\UCitem{Propósito}{Obtener analisis}
+		\UCitem{Resumen}{
+		El sistema muestra las gráficas de las ventas y gastos que fueron realizados en las semanas.}
+		\UCitem{Entradas}{Datos de la semana}
+		\UCitem{Salidas}{Gráfica de ventas y gastos de la semana.}
+		\UCitem{Precondiciones}{El usuario debe tener permisos de administrador según la \BRref{BR01}{Determinar los permisos de un Usuario}.}
+		\UCitem{Postcondiciones}{El usuario visualizara las gráficas de ventas y gastos realizados en una semana.}
+		\UCitem{Autor}{Morales López Laura Andrea.}
+	\end{UseCase}
+
+	\begin{UCtrayectoria}{Principal}
+
+		\UCpaso Realiza el \ref{CU1Login} del \UCref{CU1}.
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Gráficas}.
+		\UCpaso Calcula los datos de la base y grafica las ventas y gastos.
+		\UCpaso Muestra las gráficas de ventas y gastos de los ultimos 7 dias \IUref{UI4}{Pantalla de Gráficas}\label{CU3 Gráficas}.
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Aceptar}.
+		\UCpaso Despliega la \IUref{UI2}{Pantalla de Selección de Acciones} con la lista de Acciones Disponibles.
+		
+		\end{UCtrayectoria}
+		
+		
+%-------------------------------------- TERMINA descripción del caso de uso.

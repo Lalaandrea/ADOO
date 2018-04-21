@@ -1,0 +1,64 @@
+% \IUref{IUAdmPS}{Administrar Planta de Selección}
+% \IUref{IUModPS}{Modificar Planta de Selección}
+% \IUref{IUEliPS}{Eliminar Planta de Selección}
+
+% 
+
+
+% Copie este bloque por cada caso de uso:
+%-------------------------------------- COMIENZA descripción del caso de uso.
+
+%\begin{UseCase}[archivo de imágen]{UCX}{Nombre del Caso de uso}{
+	\begin{UseCase}{CU2}{Realizar una venta}{
+		El usuario realizará una venta a un cliente de un producto.
+	}
+		\UCitem{Versión}{0.1}
+		\UCitem{Actor}{Usuario(Empleado o administrador) }
+		\UCitem{Propósito}{Que el usuario pueda realizar una venta de un producto}
+		\UCitem{Resumen}{
+		El sistema obtiene el producto, muestra la cuenta y al recibir el pago correspondiente actualiza el inventario.}
+		\UCitem{Entradas}{Productos a adquirir}
+		\UCitem{Salidas}{Costo total de la venta y ticket.}
+		\UCitem{Precondiciones}{El Usuario debe tener permiso de venta según la \BRref{BR1}{Determinar los permisos de un Usuario}..}
+		\UCitem{Postcondiciones}{La cantidad de dinero en caja debe ser mayor y el inventario actualizado}
+		\UCitem{Autor}{Morales López Laura Andrea}
+	\end{UseCase}
+
+	\begin{UCtrayectoria}{Principal}
+		\UCpaso Realiza el \ref{CU1Login} del \UCref{CU1}
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Venta}.
+		\UCpaso[\UCactor] Introduce los productos a adquirir con la \BRref{BR06}{Pseudo-Códigos de Barras Personalizables}.
+		\UCpaso Busca los productos introducidos 
+		\UCpaso Despliega los precios correspondientes de los productos y el costo total.\label{CU2Con}
+		\UCpaso[\UCactor] Confirma la realización de la venta presionando el \IUbutton{Confirmar}.
+		\UCpaso Muestra el total y pide al Usuario que cobre el dinero correspondiente.
+
+		\UCpaso[\UCactor] Confirma la obtención de los bienes usando la \BRref{BR08}{Redondeo}.
+
+		\UCpaso Actualiza el inventario e informa que el inventario fue actualizado
+		
+		\UCpaso Imprime el recibo de pago con base en la regla \BRref{BR2}{Recibo de venta.}.
+				
+	\end{UCtrayectoria}
+		
+		\begin{UCtrayectoriaA}{A}{El Usuario desea retirar un producto}
+			\UCpaso [\UCactor] Oprime el \IUbutton{Producto}
+			\UCpaso Muestra un menu \IUref{UI3}{Pantalla de Accion de Producto}
+			\UCpaso [\UCactor] Oprime el botón \IUbutton{Eliminar}.
+			\UCpaso Muestra el Mensaje {\bf MSG2-}``El Producto [{\em Nombre del Producto}] se ha eliminado.''.
+			\UCpaso[\UCactor] Oprime el botón \IUbutton{Aceptar}.
+			\UCpaso Continua en el paso \ref{CU2Con} del \UCref{CU2}
+			
+		\end{UCtrayectoriaA}
+		\begin{UCtrayectoriaA}{B}{El Usuario no obtiene los bienes}
+			\UCpaso [\UCactor] Oprime el boton \IUbutton{Cancelar en} \ref{CU2Con} del \UCref{CU2}
+			\UCpaso Cancela toda la trayectoria con base en la regla \BRref{BR03}{Consistencia de los datos}.
+			
+			
+		\end{UCtrayectoriaA}
+		
+
+		
+		
+		
+%-------------------------------------- TERMINA descripción del caso de uso.

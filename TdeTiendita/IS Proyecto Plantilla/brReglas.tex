@@ -1,0 +1,109 @@
+% ========================================================
+% ===========        REGLAS DEL NEGOCIO       ============
+% ========================================================
+\section{Reglas de Negocio}
+
+	\begin{BussinesRule}{BR01}{Determinar Permisos del Usuario} 
+		\BRitem[Descripción:] Dentro del sistema par la venta habrá 2 tipos de usuarios, por un lado un vendedor
+		o un usuario normal que contará con un acceso limitado a las cosas que pueden hacer dentro del sistema,
+		más específicamente un usuario normal solo tendrá posibilidad de abrir la caja, venta o cancelar la venta
+		del producto (antes de finilizar la transacción).
+
+		Mientras que un usuario administrados podrá también acceder al análisis de los datos del sistema, así como
+		podemos editar las cuentas, eliminar o crear una nueva cuenta y modificar ventas en el pasado, así como poder
+		modificar el inventario sin tener que pasar por caja; finalmente también podra crear y dar de alta árticulos en
+		el sistema.
+
+		\BRitem[Tipo:] Restricción de integridad y seguridad
+		\BRitem[Nivel:] Obligatorio.
+	\end{BussinesRule}
+
+	\begin{BussinesRule}{BR02}{Generar un Recibo de Venta para cada compra finalizada}
+		\BRitem[Descripción:] Al momento de terminar una venta o transacción el sistema se encargará automaticamente de
+		crear un recibo que el cliente tendrá que recibir para validad la venta.
+		\begin{displaymath}\begin{array}{lr}
+				Fecha y Hora & \\
+				Vendedor: & Nombre\\
+				Productos: & \$ XXX.XX\\
+				\dots &\dots\\
+				Total: & \$ XXX.XX
+			\end{array}\end{displaymath}
+
+		\BRitem[Tipo:] Restricción de operación.
+		\BRitem[Nivel:] Semi-Obligatorio.
+	\end{BussinesRule}
+
+	\begin{BussinesRule}{BR03}{Consistencia de los Datos}
+		\BRitem[Descripción:] Los datos que esten dentro del sistema tendrán que ser consistentes en todo momento
+		es decir las ventas dadas en un dia deberán corresponder con el cambio de árticulos en el inventario, así como
+		la cantidad vendida en el sistema deberá corresponder con la diferencia de la caja en la última sesión menos
+		el costo de los proovedores en ese día
+
+		\BRitem[Tipo:] Restricción de integridad.
+		\BRitem[Nivel:] Obligatorio.
+	\end{BussinesRule}
+
+	\begin{BussinesRule}{BR04}{Contabilidad y Contacto con los Empleados}
+		\BRitem[Descripción:] Los usuarios administradores del sistema podrán crear nuevos usuarios vendedores,
+		al momento de su creación se solicitará un horario provicional, nombre completo, número para contacto.
+
+		\BRitem[Tipo:] Restricción de integridad.
+		\BRitem[Nivel:] Obligatorio.
+	\end{BussinesRule}
+
+	\begin{BussinesRule}{BR05}{Venta por Precio y Cantidad}
+		\BRitem[Descripción:] Un árticulo, al momento de darse de alta en el sistema se puede crear con un campo que permita
+		venderlo por precio.
+
+		Con esto se habilita la opción de poder vender un fragmento del mismo usando el costo completo.
+		Esto también hará que sea posible vender el producto en una cantidad racional y no solo natural.
+
+		\BRitem[Tipo:] Restricción de operación.
+		\BRitem[Nivel:] Obligatorio.
+	\end{BussinesRule}
+
+	\begin{BussinesRule}{BR06}{Pseudo-Códigos de Barras Personalizables}
+		\BRitem[Descripción:] 
+		Existen de fábrica metacódigos de barra sobre los códigos de barra normales, estos son:
+		\begin{itemize}
+			\item 
+				$Num-$Código: Este dependiendo del producto puede estar disponible solo con números
+				naturales o si el producto se puede vender por precio entonces tenemos a nuestra disposición
+				números racionales.
+
+				Ejemplo: $3-Hue$: Para vender 3 kilos de huevo, $0.25Jam$ 0.25 kilos de jamón
+			\item 
+				$\$Precio$-Código: Si el producto se puede vender por precio entonces basta con poner este
+				patrón para poder vender varios de los mismos
+
+				Ejemplo: $\$20-Lon$: Para vender \$20 pesos de longaniza
+		\end{itemize}
+
+		Si es que el código de barras del producto esta conformado solo por letras entonces el guión medio
+		será opcional
+
+		\BRitem[Tipo:] Restricción de operación.
+		\BRitem[Nivel:] Obligatorio.
+	\end{BussinesRule}
+
+	\begin{BussinesRule}{BR07}{Pseudo-Códigos de Barras Personalizables}
+		\BRitem[Descripción:] 
+		Existirá la posibilidad de crear meta comandos en la barra de códigos de barra, es decir
+		comandos que servirán de atajos para una configuración de productos y cantidad. Estos pueden
+		crearse o eliminarse en cualquier momento por el administrador
+
+		\BRitem[Tipo:] Restricción de operación.
+		\BRitem[Nivel:] Obligatorio.
+	\end{BussinesRule}
+
+	\begin{BussinesRule}{BR08}{Redondeo}
+		\BRitem[Descripción:] 
+		Si al momento de calcular el costo final de un producto que se esta vendiendo por cantidad racional
+		se tiene que su precio final no se puede expresar como un múltiplo de $50$ centavos entonces
+		el sistema redonderá usando la función techo al primer múltiplo de $50$ centavos posible
+
+		\BRitem[Tipo:] Restricción de operación.
+		\BRitem[Nivel:] Obligatorio.
+	\end{BussinesRule}
+
+

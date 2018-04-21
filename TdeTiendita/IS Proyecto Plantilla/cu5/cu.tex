@@ -1,0 +1,34 @@
+% \IUref{IUAdmPS}{Administrar Planta de Selección}
+% \IUref{IUModPS}{Modificar Planta de Selección}
+% \IUref{IUEliPS}{Eliminar Planta de Selección}
+
+% 
+
+
+% Copie este bloque por cada caso de uso:
+%-------------------------------------- COMIENZA descripción del caso de uso.
+
+%\begin{UseCase}[archivo de imágen]{UCX}{Nombre del Caso de uso}{
+	\begin{UseCase}{CU5}{Proveedores}{Ayudar a que los usuarios puedan visualizar las visitas de los proveedores.}
+		\UCitem{Versión}{0.1}
+		\UCitem{Actor}{Usuario administrador, Sistema de Google Docs}
+		\UCitem{Propósito}{Que el usuario pueda organizar la visita de los proveedores.}
+		\UCitem{Resumen}{El sistema muestra los proveedores así como las citas acordadas para la entrega de producto.}
+		\UCitem{Entradas}{Base de datos de proveedores y citas.}
+		\UCitem{Salidas}{Archivo.}
+		\UCitem{Precondiciones}{El usuario debe tener permisos de administrador según la \BRref{BR01}{Determinar los permisos de un Usuario}.}
+		\UCitem{Postcondiciones}{Los proveedores y las citas estaran escritos en el Archivo de pendientes.}
+		\UCitem{Autor}{Morales López Laura Andrea.}
+	\end{UseCase}
+
+	\begin{UCtrayectoria}{Principal}
+		
+		\UCpaso Realiza el \ref{CU1Login} del \UCref{CU1}.
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Pendientes}.
+		\UCpaso Carga los archivos desde Google y los muestra.\IUref{UI4}{Pantalla de Pendientes}
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Salir}.
+		\UCpaso Despliega la \IUref{UI2}{Pantalla de Selección de Acciones} con la lista de Acciones Disponibles.
+		
+	\end{UCtrayectoria}
+		
+%-------------------------------------- TERMINA descripción del caso de uso.

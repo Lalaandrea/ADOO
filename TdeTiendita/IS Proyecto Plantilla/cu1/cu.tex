@@ -1,0 +1,40 @@
+% \IUref{IUAdmPS}{Administrar Planta de Selección}
+% \IUref{IUModPS}{Modificar Planta de Selección}
+% \IUref{IUEliPS}{Eliminar Planta de Selección}
+
+% 
+
+
+% Copie este bloque por cada caso de uso:
+%-------------------------------------- COMIENZA descripción del caso de uso.
+
+%\begin{UseCase}[archivo de imágen]{UCX}{Nombre del Caso de uso}{
+	\begin{UseCase}{CU1}{Login}{
+		Entrar al sistema como usuario con un perfil definido y poder realizar acciones del sistema
+	}
+		\UCitem{Versión}{0.1}
+		\UCitem{Actor}{Usuario}
+		\UCitem{Propósito}{Que el usuario tenga permiso de usar el sistema}
+		\UCitem{Resumen}{
+		El sistema muestra un login para que el usuario pueda entrar al sistema y muestra las funciones del sistema}
+		\UCitem{Entradas}{Usuario y contraseña}
+		\UCitem{Salidas}{Opciones de acciones del sistema}
+		\UCitem{Precondiciones}{El usuario debe estar preregistrado}
+		\UCitem{Postcondiciones}{El usuario podra realizar las acciones permitidas del sistema}
+		\UCitem{Autor}{Laura Andrea Morales López.}
+	\end{UseCase}
+
+	\begin{UCtrayectoria}{Principal}
+		\UCpaso[\UCactor] Introduce su Usuario y contraseña en el sistema vía la  \IUref{UI1}{Pantalla de  Acceso}\label{CU1Login}.
+		\UCpaso Verifica que el usuario exista y los permisos que tiene \BRref{BR01}{Determinar los permisos de un Usuario}.
+		\UCpaso Despliega la \IUref{UI2}{Pantalla de Selección de Acciones} con la lista de Acciones Disponibles.
+		\UCpaso[\UCactor] Selecciona la acción que desea realizar \Trayref{B}\label{CU2Login}.		
+	\end{UCtrayectoria}
+		
+		\begin{UCtrayectoriaA}{A}{El Usuario no existe}
+			\UCpaso Muestra el Mensaje {\bf MSG1-}``El Usuario [{\em Nombre de usuario}] no existe. Contate al administador''.
+			\UCpaso[\UCactor] Oprime el botón \IUbutton{Aceptar}.
+			\UCpaso[] Termina el caso de uso.
+		\end{UCtrayectoriaA}
+		
+%-------------------------------------- TERMINA descripción del caso de uso.

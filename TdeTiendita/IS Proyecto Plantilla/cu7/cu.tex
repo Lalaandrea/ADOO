@@ -1,0 +1,35 @@
+% \IUref{IUAdmPS}{Administrar Planta de Selección}
+% \IUref{IUModPS}{Modificar Planta de Selección}
+% \IUref{IUEliPS}{Eliminar Planta de Selección}
+
+% 
+
+
+% Copie este bloque por cada caso de uso:
+%-------------------------------------- COMIENZA descripción del caso de uso.
+
+%\begin{UseCase}[archivo de imágen]{UCX}{Nombre del Caso de uso}{
+	\begin{UseCase}{CU7}{Actualizar Inventario}{
+		El usuario puede actualizar el inventario cuando se realicen las compras de la mercancia así como consumir mercancia.
+	}
+		\UCitem{Versión}{0.1}
+		\UCitem{Actor}{Usuario administrador}
+		\UCitem{Propósito}{Que el usuario administrador pueda cambiar el inventario}
+		\UCitem{Resumen}{
+		El sistema muestra el inventario y permite modificarlo.}
+		\UCitem{Entradas}{Archivo de inventario}
+		\UCitem{Salidas}{Archivo de inventario.}
+		\UCitem{Precondiciones}{El usuario debe tener permisos de administrador según la \BRref{BR01}{Determinar los permisos de un Usuario}.}
+		\UCitem{Postcondiciones}{El inventario se actualizará y guardará en el Archivo de inventario.}
+		\UCitem{Autor}{Morales López Laura Andrea.}
+	\end{UseCase}
+
+	\begin{UCtrayectoria}{Principal}
+		\UCpaso Realiza el \ref{CU1Login} del \UCref{CU1}.
+
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Inventario}.
+		\UCpaso Carga la base de datos y muestra la\IUref{UI6}{Pantalla de Inventario}\UCpaso [\UCactor] Modifica el inventario dependiendo de los productos que añada o consuma.
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Guardar}.
+		\UCpaso Despliega la \IUref{UI2}{Pantalla de Selección de Acciones} con la lista de Acciones Disponibles.
+	\end{UCtrayectoria}
+%-------------------------------------- TERMINA descripción del caso de uso.

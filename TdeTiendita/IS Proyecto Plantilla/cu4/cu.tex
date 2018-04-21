@@ -1,0 +1,37 @@
+% \IUref{IUAdmPS}{Administrar Planta de Selección}
+% \IUref{IUModPS}{Modificar Planta de Selección}
+% \IUref{IUEliPS}{Eliminar Planta de Selección}
+
+% 
+
+
+% Copie este bloque por cada caso de uso:
+%-------------------------------------- COMIENZA descripción del caso de uso.
+
+%\begin{UseCase}[archivo de imágen]{UCX}{Nombre del Caso de uso}{
+	\begin{UseCase}{CU4}{Lista de Pendientes}{
+		Ayudar a que los Estudiantes que están por terminar la carrera se puedan inscribir en un Seminario de titulación.
+	}
+		\UCitem{Versión}{0.1}
+		\UCitem{Actor}{Usuario Administrador, Sistema de Google Docs}
+		\UCitem{Propósito}{Que el usuario pueda revisar y modificar pendientes en un documento de google.}
+		\UCitem{Resumen}{
+		El sistema muestra un archivo que definar tareas a realizar en el día. Este archivo se puede editar por más de un usuario.}
+		\UCitem{Entradas}{Archivo}
+		\UCitem{Salidas}{Archivo}
+		\UCitem{Precondiciones}{El usuario debe de ser tipo administrador segun la \BRref{BR01}{Determinar los permisos de un Usuario}.}
+		\UCitem{Postcondiciones}{El usuario visualizara y/o editara el archivo.}
+		\UCitem{Autor}{Morales López Laura Andrea.}
+	\end{UseCase}
+
+	\begin{UCtrayectoria}{Principal}
+		\UCpaso Realiza el \ref{CU1Login} del \UCref{CU1}.
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Pendientes}.
+		\UCpaso Carga los archivos desde Google y los muestra.\IUref{UI4}{Pantalla de Pendientes}
+		\UCpaso [\UCactor] Oprime el botón \IUbutton{Salir}.
+		\UCpaso Despliega la \IUref{UI2}{Pantalla de Selección de Acciones} con la lista de Acciones Disponibles.
+		
+	\end{UCtrayectoria}
+		
+		
+%-------------------------------------- TERMINA descripción del caso de uso.

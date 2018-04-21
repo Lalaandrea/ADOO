@@ -1,0 +1,775 @@
+% ****************************************************************************************
+% ************************              ADOO                  ****************************
+% ****************************************************************************************
+
+
+% =======================================================
+% =======         HEADER FOR DOCUMENT        ============
+% =======================================================
+    
+    % *********   HEADERS AND FOOTERS ********
+    \def\ProjectAuthorLink{https://github.com/SoyOscarRH}           %Just to keep it in line
+    \def\ProjectNameLink{\ProjectAuthorLink/Proyect}                %Link to Proyect
+
+    % *********   DOCUMENT ITSELF   **************
+    \documentclass[12pt, fleqn]{report}                             %Type of document and size of font and left eq
+    \usepackage[spanish]{babel}                                     %Please use spanish
+    \usepackage[utf8]{inputenc}                                     %Please use spanish - UFT
+    \usepackage[margin = 1.2in]{geometry}                           %Margins and Geometry pacakge
+    \usepackage{ifthen}                                             %Allow simple programming
+    \usepackage{hyperref}                                           %Create MetaData for a PDF and LINKS!
+    \usepackage{pdfpages}                                           %Create MetaData for a PDF and LINKS!
+    \hypersetup{pageanchor = false}                                 %Solve 'double page 1' warnings in build
+    \setlength{\parindent}{0pt}                                     %Eliminate ugly indentation
+    \author{Oscar Rosas, Alan Ontiveros y Laura Morales}            %Who I am
+
+    % *********   LANGUAJE    *****************
+    \usepackage[T1]{fontenc}                                        %Please use spanish
+    \usepackage{textcmds}                                           %Allow us to use quoutes
+    \usepackage{changepage}                                         %Allow us to use identate paragraphs
+    \usepackage{anyfontsize}                                        %All the sizes
+
+    % *********   MATH AND HIS STYLE  *********
+    \usepackage{ntheorem, amsmath, amssymb, amsfonts}               %All fucking math, I want all!
+    \usepackage{mathrsfs, mathtools, empheq}                        %All fucking math, I want all!
+    \usepackage{cancel}                                             %Negate symbol
+    \usepackage{centernot}                                          %Allow me to negate a symbol
+    \decimalpoint                                                   %Use decimal point
+
+    % *********   GRAPHICS AND IMAGES *********
+    \usepackage{graphicx}                                           %Allow to create graphics
+    \usepackage{float}                                              %For images
+    \usepackage{wrapfig}                                            %Allow to create images
+    \graphicspath{ {Graphics/} }                                    %Where are the images :D
+
+    % *********   LISTS AND TABLES ***********
+    \usepackage{listings, listingsutf8}                             %We will be using code here
+    \usepackage[inline]{enumitem}                                   %We will need to enumarate
+    \usepackage{tasks}                                              %Horizontal lists
+    \usepackage{longtable}                                          %Lets make tables awesome
+    \usepackage{booktabs}                                           %Lets make tables awesome
+    \usepackage{tabularx}                                           %Lets make tables awesome
+    \usepackage{multirow}                                           %Lets make tables awesome
+    \usepackage{multicol}                                           %Create multicolumns
+
+    % *********   HEADERS AND FOOTERS ********
+    \usepackage{fancyhdr}                                           %Lets make awesome headers/footers
+    \pagestyle{fancy}                                               %Lets make awesome headers/footers
+    \setlength{\headheight}{16pt}                                   %Top line
+    \setlength{\parskip}{0.5em}                                     %Top line
+    \renewcommand{\footrulewidth}{0.5pt}                            %Bottom line
+
+    \lhead {                                                        %Left Header
+        \hyperlink{chapter.\arabic{chapter}}                        %Make a link to the current chapter
+        {\normalsize{\textsc{\nouppercase{\leftmark}}}}             %And fot it put the name
+    }
+
+    \rhead {                                                        %Right Header
+        \hyperlink{section.\arabic{chapter}.\arabic{section}}       %Make a link to the current chapter
+            {\footnotesize{\textsc{\nouppercase{\rightmark}}}}      %And fot it put the name
+    }
+
+    \rfoot{\textsc{\small{\hyperref[sec:Index]{Ve al Índice}}}}     %This will always be a footer  
+
+    \fancyfoot[L]{                                                  %Algoritm for a changing footer
+        \ifthenelse{\isodd{\value{page}}}                           %IF ODD PAGE:
+            {\href{https://compilandoconocimiento.com/nosotros/}    %DO THIS:
+                {\tiny                                              %Send the page
+                    {\textsc{                                       %Send the page
+                    Oscar Rosas, Alan Ontiveros y Laura Morale}}}}  %Send the page
+            {\href{https://compilandoconocimiento.com}              %ELSE DO THIS: 
+                {\footnotesize                                      %Send the author
+                    {\textsc{T de Tiendita}}}}                      %Send the author
+    }
+    
+    \usepackage{gantt}
+    \definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33} 
+    
+% =======================================================
+% ===================   COMMANDS    =====================
+% =======================================================
+
+    % =========================================
+    % =======   NEW ENVIRONMENTS   ============
+    % =========================================
+    \newenvironment{Indentation}[1][0.75em]                         %Use: \begin{Inde...}[Num]...\end{Inde...}
+        {\begin{adjustwidth}{#1}{}}                                 %If you dont put nothing i will use 0.75 em
+        {\end{adjustwidth}}                                         %This indentate a paragraph
+    \newenvironment{SmallIndentation}[1][0.75em]                    %Use: The same that we upper one, just 
+        {\begin{adjustwidth}{#1}{}\begin{footnotesize}}             %footnotesize size of letter by default
+        {\end{footnotesize}\end{adjustwidth}}                       %that's it
+
+    \newenvironment{MultiLineEquation}[1]                           %Use: To create MultiLine equations
+        {\begin{equation}\begin{alignedat}{#1}}                     %Use: \begin{Multi..}{Num. de Columnas}
+        {\end{alignedat}\end{equation}}                             %And.. that's it!
+    \newenvironment{MultiLineEquation*}[1]                          %Use: To create MultiLine equations
+        {\begin{equation*}\begin{alignedat}{#1}}                    %Use: \begin{Multi..}{Num. de Columnas}
+        {\end{alignedat}\end{equation*}}                            %And.. that's it!
+    
+
+    % =========================================
+    % == GENERAL TEXT & SYMBOLS ENVIRONMENTS ==
+    % =========================================
+    
+    % =====  TEXT  ======================
+    \newcommand \Quote {\qq}                                        %Use: \Quote to use quotes
+    \newcommand \Over {\overline}                                   %Use: \Bar to use just for short
+    \newcommand \ForceNewLine {$\Space$\\}                          %Use it in theorems for example
+
+    % =====  SPACES  ====================
+    \DeclareMathOperator \Space {\quad}                             %Use: \Space for a cool mega space
+    \DeclareMathOperator \MegaSpace {\quad \quad}                   %Use: \MegaSpace for a cool mega mega space
+    \DeclareMathOperator \MiniSpace {\;}                            %Use: \Space for a cool mini space
+    
+    % =====  MATH TEXT  =================
+    \newcommand \Such {\MiniSpace | \MiniSpace}                     %Use: \Such like in sets
+    \newcommand \Also {\MiniSpace \text{y} \MiniSpace}              %Use: \Also so it's look cool
+    \newcommand \Remember[1]{\Space\text{\scriptsize{#1}}}          %Use: \Remember so it's look cool
+    
+    % =====  THEOREMS  ==================
+    \newtheorem{Theorem}{Teorema}[section]                          %Use: \begin{Theorem}[Name]\label{Nombre}...
+    \newtheorem{Corollary}{Colorario}[Theorem]                      %Use: \begin{Corollary}[Name]\label{Nombre}...
+    \newtheorem{Lemma}[Theorem]{Lemma}                              %Use: \begin{Lemma}[Name]\label{Nombre}...
+    \newtheorem{Definition}{Definición}[section]                    %Use: \begin{Definition}[Name]\label{Nombre}...
+    \theoremstyle{break}                                            %THEOREMS START 1 SPACE AFTER
+
+    % =====  LOGIC  =====================
+    \newcommand \lIff {\leftrightarrow}                             %Use: \lIff for logic iff
+    \newcommand \lEqual {\MiniSpace \Leftrightarrow \MiniSpace}     %Use: \lEqual for a logic double arrow
+    \newcommand \lInfire {\MiniSpace \Rightarrow \MiniSpace}        %Use: \lInfire for a logic infire
+    \newcommand \lLongTo {\longrightarrow}                          %Use: \lLongTo for a long arrow
+
+    % =====  FAMOUS SETS  ===============
+    \DeclareMathOperator \Naturals     {\mathbb{N}}                 %Use: \Naturals por Notation
+    \DeclareMathOperator \Primes       {\mathbb{P}}                 %Use: \Primes por Notation
+    \DeclareMathOperator \Integers     {\mathbb{Z}}                 %Use: \Integers por Notation
+    \DeclareMathOperator \Racionals    {\mathbb{Q}}                 %Use: \Racionals por Notation
+    \DeclareMathOperator \Reals        {\mathbb{R}}                 %Use: \Reals por Notation
+    \DeclareMathOperator \Complexs     {\mathbb{C}}                 %Use: \Complex por Notation
+    \DeclareMathOperator \GenericField {\mathbb{F}}                 %Use: \GenericField por Notation
+    \DeclareMathOperator \VectorSet    {\mathbb{V}}                 %Use: \VectorSet por Notation
+    \DeclareMathOperator \SubVectorSet {\mathbb{W}}                 %Use: \SubVectorSet por Notation
+    \DeclareMathOperator \Polynomials  {\mathbb{P}}                 %Use: \Polynomials por Notation
+
+    % =====  CONTAINERS   ===============
+    \newcommand{\Set}[1]{\left\{ \; #1 \; \right\}}                 %Use: \Set {Info} for INTELLIGENT space 
+    \newcommand{\bigSet}[1]{\big\{ \; #1 \; \big\}}                 %Use: \bigSet  {Info} for space 
+    \newcommand{\BigSet}[1]{\Big\{ \; #1 \; \Big\}}                 %Use: \BigSet  {Info} for space 
+    \newcommand{\biggSet}[1]{\bigg\{ \; #1 \; \bigg\}}              %Use: \biggSet {Info} for space 
+    \newcommand{\BiggSet}[1]{\Bigg\{ \; #1 \; \Bigg\}}              %Use: \BiggSet {Info} for space 
+    
+    \newcommand{\Brackets}[1]{\left[ #1 \right]}                    %Use: \Brackets {Info} for INTELLIGENT space
+    \newcommand{\bigBrackets}[1]{\big[ \; #1 \; \big]}              %Use: \bigBrackets  {Info} for space 
+    \newcommand{\BigBrackets}[1]{\Big[ \; #1 \; \Big]}              %Use: \BigBrackets  {Info} for space 
+    \newcommand{\biggBrackets}[1]{\bigg[ \; #1 \; \bigg]}           %Use: \biggBrackets {Info} for space 
+    \newcommand{\BiggBrackets}[1]{\Bigg[ \; #1 \; \Bigg]}           %Use: \BiggBrackets {Info} for space 
+    
+    \newcommand{\Wrap}[1]{\left( #1 \right)}                        %Use: \Wrap {Info} for INTELLIGENT space
+    \newcommand{\bigWrap}[1]{\big( \; #1 \; \big)}                  %Use: \bigBrackets  {Info} for space 
+    \newcommand{\BigWrap}[1]{\Big( \; #1 \; \Big)}                  %Use: \BigBrackets  {Info} for space 
+    \newcommand{\biggWrap}[1]{\bigg( \; #1 \; \bigg)}               %Use: \biggBrackets {Info} for space 
+    \newcommand{\BiggWrap}[1]{\Bigg( \; #1 \; \Bigg)}               %Use: \BiggBrackets {Info} for space 
+
+    % =====  BETTERS MATH COMMANDS   =====
+    \newcommand{\pfrac}[2]{\Wrap{\dfrac{#1}{#2}}}                   %Use: Put fractions in parentesis
+
+    % =========================================
+    % ====   LINEAL ALGEBRA & VECTORS    ======
+    % =========================================
+
+    % ===== UNIT VECTORS  ================
+    \newcommand{\hati} {\hat{\imath}}                               %Use: \hati for unit vector    
+    \newcommand{\hatj} {\hat{\jmath}}                               %Use: \hatj for unit vector    
+    \newcommand{\hatk} {\hat{k}}                                    %Use: \hatk for unit vector
+
+    % ===== MAGNITUDE  ===================
+    \newcommand{\abs}[1]{\left\lvert #1 \right\lvert}               %Use: \abs{expression} for |x|
+    \newcommand{\Abs}[1]{\left\lVert #1 \right\lVert}               %Use: \Abs{expression} for ||x||
+    \newcommand{\Mag}[1]{\left| #1 \right|}                         %Use: \Mag {Info} 
+    
+    \DeclareMathOperator \LinealTransformation {\mathcal{T}}        %Use: \LinealTransformation for a cool T
+    \newcommand{\bVec}[1]{\mathbf{#1}}                              %Use for bold type of vector
+    \newcommand{\lVec}[1]{\overrightarrow{#1}}                      %Use for a long arrow over a vector
+    \newcommand{\uVec}[1]{\mathbf{\hat{#1}}}                        %Use: Unitary Vector Example: $\uVec{i}
+
+    % ===== ALL FOR DOT PRODUCT  =========
+    \makeatletter                                                   %WTF! IS THIS
+    \newcommand*\dotP{\mathpalette\dotP@{.5}}                       %Use: \dotP for dot product
+    \newcommand*\dotP@[2] {\mathbin {                               %WTF! IS THIS            
+        \vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}           %WTF! IS THIS
+    }                                                               %WTF! IS THIS
+    \makeatother                                                    %WTF! IS THIS
+
+    % === WRAPPERS FOR COLUMN VECTOR ===
+    \newcommand{\pVector}[1]                                        %Use: \pVector {Matrix Notation} use parentesis
+        { \ensuremath{\begin{pmatrix}#1\end{pmatrix}} }             %Example: \pVector{a\\b\\c} or \pVector{a&b&c} 
+    \newcommand{\lVector}[1]                                        %Use: \lVector {Matrix Notation} use a abs 
+        { \ensuremath{\begin{vmatrix}#1\end{vmatrix}} }             %Example: \lVector{a\\b\\c} or \lVector{a&b&c} 
+    \newcommand{\bVector}[1]                                        %Use: \bVector {Matrix Notation} use a brackets 
+        { \ensuremath{\begin{bmatrix}#1\end{bmatrix}} }             %Example: \bVector{a\\b\\c} or \bVector{a&b&c} 
+    \newcommand{\Vector}[1]                                         %Use: \Vector {Matrix Notation} no parentesis
+        { \ensuremath{\begin{matrix}#1\end{matrix}} }               %Example: \Vector{a\\b\\c} or \Vector{a&b&c}
+
+    % === MAKE MATRIX BETTER  =========
+    \makeatletter                                                   %Example: \begin{matrix}[cc|c]
+    \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c] {             %WTF! IS THIS
+        \hskip -\arraycolsep                                        %WTF! IS THIS
+        \let\@ifnextchar\new@ifnextchar                             %WTF! IS THIS
+        \array{#1}                                                  %WTF! IS THIS
+    }                                                               %WTF! IS THIS
+    \makeatother                                                    %WTF! IS THIS
+
+    % =========================================
+    % =======   FAMOUS FUNCTIONS   ============
+    % =========================================
+
+    % == TRIGONOMETRIC FUNCTIONS  ====
+    \newcommand{\Cos}[1] {\cos\Wrap{#1}}                            %Simple wrappers
+    \newcommand{\Sin}[1] {\sin\Wrap{#1}}                            %Simple wrappers
+    \newcommand{\Tan}[1] {tan\Wrap{#1}}                             %Simple wrappers
+    
+    \newcommand{\Sec}[1] {sec\Wrap{#1}}                             %Simple wrappers
+    \newcommand{\Csc}[1] {csc\Wrap{#1}}                             %Simple wrappers
+    \newcommand{\Cot}[1] {cot\Wrap{#1}}                             %Simple wrappers
+
+    % === COMPLEX ANALYSIS TRIG ======
+    \newcommand \Cis[1]  {\Cos{#1} + i \Sin{#1}}                    %Use: \Cis for cos(x) + i sin(x)
+    \newcommand \pCis[1] {\Wrap{\Cis{#1}}}                          %Use: \pCis for the same with parantesis
+    \newcommand \bCis[1] {\Brackets{\Cis{#1}}}                      %Use: \bCis for the same with Brackets
+
+
+    % =========================================
+    % ===========     CALCULUS     ============
+    % =========================================
+
+    % ====== TRANSFORMS =============
+    \newcommand{\FourierT}[1]{\mathscr{F} \left\{ #1 \right\} }     %Use: \FourierT {Funtion}
+    \newcommand{\InvFourierT}[1]{\mathscr{F}^{-1}\left\{#1\right\}} %Use: \InvFourierT {Funtion}
+
+    % ====== DERIVATIVES ============
+    \newcommand \MiniDerivate[1][x] {\dfrac{d}{d #1}}               %Use: \MiniDerivate[var] for simple use [var]
+    \newcommand \Derivate[2] {\dfrac{d \; #1}{d #2}}                %Use: \Derivate [f(x)][x]
+    \newcommand \MiniUpperDerivate[2] {\dfrac{d^{#2}}{d#1^{#2}}}    %Mini Derivate High Orden Derivate -- [x][pow]
+    \newcommand \UpperDerivate[3] {\dfrac{d^{#3} \; #1}{d#2^{#3}}}  %Complete High Orden Derivate -- [f(x)][x][pow]
+    
+    \newcommand \MiniPartial[1][x] {\dfrac{\partial}{\partial #1}}  %Use: \MiniDerivate for simple use [var]
+    \newcommand \Partial[2] {\dfrac{\partial \; #1}{\partial #2}}   %Complete Partial Derivate -- [f(x)][x]
+    \newcommand \MiniUpperPartial[2]                                %Mini Derivate High Orden Derivate -- [x][pow] 
+        {\dfrac{\partial^{#2}}{\partial #1^{#2}}}                   %Mini Derivate High Orden Derivate
+    \newcommand \UpperPartial[3]                                    %Complete High Orden Derivate -- [f(x)][x][pow]
+        {\dfrac{\partial^{#3} \; #1}{\partial#2^{#3}}}              %Use: \UpperDerivate for simple use
+
+    \DeclareMathOperator \Evaluate  {\Big|}                         %Use: \Evaluate por Notation
+
+    % =========================================
+    % ========    GENERAL STYLE     ===========
+    % =========================================
+    
+    % =====  COLORS ==================
+    \definecolor{RedMD}{HTML}{F44336}                               %Use: Color :D        
+    \definecolor{Red100MD}{HTML}{FFCDD2}                            %Use: Color :D        
+    \definecolor{Red200MD}{HTML}{EF9A9A}                            %Use: Color :D        
+    \definecolor{Red300MD}{HTML}{E57373}                            %Use: Color :D        
+    \definecolor{Red700MD}{HTML}{D32F2F}                            %Use: Color :D 
+
+    \definecolor{PurpleMD}{HTML}{9C27B0}                            %Use: Color :D        
+    \definecolor{Purple100MD}{HTML}{E1BEE7}                         %Use: Color :D        
+    \definecolor{Purple200MD}{HTML}{EF9A9A}                         %Use: Color :D        
+    \definecolor{Purple300MD}{HTML}{BA68C8}                         %Use: Color :D        
+    \definecolor{Purple700MD}{HTML}{7B1FA2}                         %Use: Color :D 
+
+    \definecolor{IndigoMD}{HTML}{3F51B5}                            %Use: Color :D        
+    \definecolor{Indigo100MD}{HTML}{C5CAE9}                         %Use: Color :D        
+    \definecolor{Indigo200MD}{HTML}{9FA8DA}                         %Use: Color :D        
+    \definecolor{Indigo300MD}{HTML}{7986CB}                         %Use: Color :D        
+    \definecolor{Indigo700MD}{HTML}{303F9F}                         %Use: Color :D 
+
+    \definecolor{BlueMD}{HTML}{2196F3}                              %Use: Color :D        
+    \definecolor{Blue100MD}{HTML}{BBDEFB}                           %Use: Color :D        
+    \definecolor{Blue200MD}{HTML}{90CAF9}                           %Use: Color :D        
+    \definecolor{Blue300MD}{HTML}{64B5F6}                           %Use: Color :D        
+    \definecolor{Blue700MD}{HTML}{1976D2}                           %Use: Color :D        
+    \definecolor{Blue900MD}{HTML}{0D47A1}                           %Use: Color :D  
+
+    \definecolor{CyanMD}{HTML}{00BCD4}                              %Use: Color :D        
+    \definecolor{Cyan100MD}{HTML}{B2EBF2}                           %Use: Color :D        
+    \definecolor{Cyan200MD}{HTML}{80DEEA}                           %Use: Color :D        
+    \definecolor{Cyan300MD}{HTML}{4DD0E1}                           %Use: Color :D        
+    \definecolor{Cyan700MD}{HTML}{0097A7}                           %Use: Color :D        
+    \definecolor{Cyan900MD}{HTML}{006064}                           %Use: Color :D 
+
+    \definecolor{TealMD}{HTML}{009688}                              %Use: Color :D        
+    \definecolor{Teal100MD}{HTML}{B2DFDB}                           %Use: Color :D        
+    \definecolor{Teal200MD}{HTML}{80CBC4}                           %Use: Color :D        
+    \definecolor{Teal300MD}{HTML}{4DB6AC}                           %Use: Color :D        
+    \definecolor{Teal700MD}{HTML}{00796B}                           %Use: Color :D        
+    \definecolor{Teal900MD}{HTML}{004D40}                           %Use: Color :D 
+
+    \definecolor{GreenMD}{HTML}{4CAF50}                             %Use: Color :D        
+    \definecolor{Green100MD}{HTML}{C8E6C9}                          %Use: Color :D        
+    \definecolor{Green200MD}{HTML}{A5D6A7}                          %Use: Color :D        
+    \definecolor{Green300MD}{HTML}{81C784}                          %Use: Color :D        
+    \definecolor{Green700MD}{HTML}{388E3C}                          %Use: Color :D        
+    \definecolor{Green900MD}{HTML}{1B5E20}                          %Use: Color :D
+
+    \definecolor{AmberMD}{HTML}{FFC107}                             %Use: Color :D        
+    \definecolor{Amber100MD}{HTML}{FFECB3}                          %Use: Color :D        
+    \definecolor{Amber200MD}{HTML}{FFE082}                          %Use: Color :D        
+    \definecolor{Amber300MD}{HTML}{FFD54F}                          %Use: Color :D        
+    \definecolor{Amber700MD}{HTML}{FFA000}                          %Use: Color :D        
+    \definecolor{Amber900MD}{HTML}{FF6F00}                          %Use: Color :D
+
+    \definecolor{BlueGreyMD}{HTML}{607D8B}                          %Use: Color :D        
+    \definecolor{BlueGrey100MD}{HTML}{CFD8DC}                       %Use: Color :D        
+    \definecolor{BlueGrey200MD}{HTML}{B0BEC5}                       %Use: Color :D        
+    \definecolor{BlueGrey300MD}{HTML}{90A4AE}                       %Use: Color :D        
+    \definecolor{BlueGrey700MD}{HTML}{455A64}                       %Use: Color :D        
+    \definecolor{BlueGrey900MD}{HTML}{263238}                       %Use: Color :D        
+
+    \definecolor{DeepPurpleMD}{HTML}{673AB7}                        %Use: Color :D
+
+    \newcommand{\Color}[2]{\textcolor{#1}{#2}}                      %Simple color environment
+    \newenvironment{ColorText}[1]                                   %Use: \begin{ColorText}
+        { \leavevmode\color{#1}\ignorespaces }                      %That's is!
+
+    % =====  CODE EDITOR =============
+    \lstdefinestyle{CompilandoStyle} {                              %This is Code Style
+        backgroundcolor     = \color{BlueGrey900MD},                %Background Color  
+        basicstyle          = \tiny\color{white},                   %Style of text
+        commentstyle        = \color{BlueGrey200MD},                %Comment style
+        stringstyle         = \color{Green300MD},                   %String style
+        keywordstyle        = \color{Blue300MD},                    %keywords style
+        numberstyle         = \tiny\color{TealMD},                  %Size of a number
+        frame               = shadowbox,                            %Adds a frame around the code
+        breakatwhitespace   = true,                                 %Style   
+        breaklines          = true,                                 %Style   
+        showstringspaces    = false,                                %Hate those spaces                  
+        breaklines          = true,                                 %Style                   
+        keepspaces          = true,                                 %Style                   
+        numbers             = left,                                 %Style                   
+        numbersep           = 10pt,                                 %Style 
+        xleftmargin         = \parindent,                           %Style 
+        tabsize             = 4,                                    %Style
+        inputencoding       = utf8/latin1                           %Allow me to use special chars
+    }
+ 
+    \lstset{style = CompilandoStyle}                                %Use this style
+    
+    
+    
+% =====================================================
+% ============        COVER PAGE       ================
+% =====================================================
+\begin{document}
+\begin{titlepage}
+    
+    % ============ TITLE PAGE STYLE  ================
+    \definecolor{TitlePageColor}{cmyk}{1,.60,0,.40}                 %Simple colors
+    \definecolor{ColorSubtext}{cmyk}{1,.50,0,.10}                   %Simple colors
+    \newgeometry{left=0.20\textwidth}                               %Defines an Offset
+    \pagecolor{TitlePageColor}                                      %Make it this Color to page
+    \color{white}                                                   %General things should be white
+
+    % ===== MAKE SOME SPACE =========
+    \vspace                                                         %Give some space
+    \baselineskip                                                   %But we need this to up command
+
+    % ============ NAME OF THE PROJECT  ============
+    \makebox[0pt][l]{\rule{1.3\textwidth}{3pt}}                     %Make a cool line
+    
+    \href{https://compilandoconocimiento.com}                       %Link to project
+    {\textbf{\textsc{\Huge ESCOM-IPN}}}\\[2.7cm]                    %Name of project   
+
+    % ============ NAME OF THE BOOK  ===============
+    \href{\ProjectNameLink/LibroProbabilidad}                       %Link to Author
+    {\fontsize{36}{50}                                              %Size of the book
+        \selectfont \textbf{Metodologías y Planeación}}\\[0.5cm]       %Name of the book
+    {\fontsize{36}{50}                                              %Size of the book
+        \selectfont \textbf{T de Tiendita}}\\[0.5cm]                %Name of the book
+    \textcolor{ColorSubtext}                                        %Color or the topic
+        {\textsc{\LARGE Análisis y Diseño Orientado a Objetos}}     %Name of the general theme
+    
+    \vfill                                                          %Fill the space
+    
+    % ============ NAME OF THE AUTHOR  =============
+    \href{https://compilandoconocimiento.com/yo}                    %Link to Author
+    {\LARGE \textsf{Oscar Rosas, Alan Ontiveros y Laura Morales}}   %Author
+
+    % ===== MAKE SOME SPACE =========
+    \vspace                                                         %Give some space
+    \baselineskip                                                   %But we need this to up command
+    
+    {\large \textsf{Febrero 2018}}                                  %Date
+
+\end{titlepage}
+
+
+% =====================================================
+% ==========      RESTORE TO DOCUMENT      ============
+% =====================================================
+\restoregeometry                                                    %Restores the geometry
+\nopagecolor                                                        %Use to restore the color to white
+
+
+
+
+% =====================================================
+% ========                INDICE              =========
+% =====================================================
+\tableofcontents{}
+\label{sec:Index}
+
+\clearpage
+
+
+
+% ===============================================================================
+% ===============                ANTECEDENTES              ======================
+% ===============================================================================
+\chapter{Metodologías}
+
+% ==============================================
+% ===========     DEFINICIONES      ============
+% ==============================================
+\clearpage
+\section{Definiciones}
+
+
+	% ==============================================
+	% ===========     METODOLOGÍA       ============
+	% ==============================================
+	\section{¿Qué es una metodología?}
+	
+	Empecemos con un poco de definiciones. Una metodología en el desarrolo de software es un conjunto de pasos y procedimientos que deben seguirse para el desarrollo de software.
+	
+	
+	Su objetivo principal es realizar mejores aplicaciones. Un mejor proceso de desarrollo que identifique salidas de cada fase de forma que se pueda planificar y controlar los proyectos.
+	
+	Esta metodología debe ser deseablemente clara y fácil de comprender, debe tener la capacidad de soportar la evolución de los sistemas, facilitar la portabilidad, ser flexible, escalable y adoptar estándares.
+
+
+    % ==============================================
+    % ====   ELECCIÓN DE METODOLOGIAS         ======
+    % ==============================================
+    \section{Elección de Metodologías}
+    
+    	A continuación les mostraremos algunas de las metodologías que consideramos para
+    	usar en el proyecto.
+    	\subsection{Metodología de cascada}
+    	
+    	Considerado por muchos anticuado resulta ser uno de los que más se usan en la industria.
+    	Consiste en, como su nombre menciona, una desarrollo que pareciera una cascada con niveles entre los cuales hay un pequeño descanso que regularmente se usa como confirmación con el cliente. Permite deshacerse de papeleo, reuniones y retraso en sus procesos de negocio.
+    	
+    	Esta metodología no la escogimos pues es un modelo inflexible, nuestro proyecto al ser tan personal tendrá propuestas de cambio todo el tiempo, implementación o cambio de estrategia en alguna meta a realizar.
+    	
+    	\subsection{Metodología de espiral}
+        Está dirigido a modelos con demandas de tiempo permitiendo tener múltiples entregas o traspasos, sin embargo debe ser planificado metódicamente con metas preestablecidas, con lo cual, queda descartado.
+        
+        \subsection{Desarrollo Rápido de Aplicaciones}
+        Su objetivo es otorgar resultados rápidos con un enfoque a desarrollo, diseñado para aumentar la viabilidad de todo el procedimiento. El que esté diseñado para el desarrollo no nos permite tener un buen manejo de la base que puede llegar a crecer mucho, además que tiende a ser muy inconstante.
+        Tener un programa con muchos problemas detrás por enfocarnos en mantener la mínima cantidad de recursos no es la manera en que necesitamos desarrollar este software.
+        
+        \subsection{Metodología de Programacion Extrema}
+        Esta metodología se utiliza principalmente para evitar el desarrollo de funciones que actualmente no se necesitan, pero sobre todo para  para atender proyectos complicados. Sin embargo, sus métodos pueden tomar más tiempo, así como recursos humanos en comparación con otros enfoques.
+        Y como no tenemos ni pizca de esos recursos, lentamente nos alejamos de ella...
+        
+    
+    
+    
+    
+    % ==============================================
+    % =========   METODOLOGIA AGIL         =========
+    % ==============================================
+    \clearpage
+    \section{Metodología Ágil}
+    
+    
+    	En los últimos años, una nueva forma de crear software ha tomado por sorpresa el mundo
+    	del desarrollo y las pruebas de software: La metodología ágil.
+    
+    	Entonces, ¿qué es exactamente Agil y por qué se ha vuelto tan popular tan rápido?
+    	Exploremos exactamente qué implican las metodologías Agil.
+    
+    	La metodología Agil ha tomado por asalto el mundo del desarrollo de software y consolidado
+    	rápidamente su lugar como ``el estándar de oro''.
+    
+    	Todas las metodologías ágiles comenzaron basándose en cuatro principios básicos, como se
+    	describe en el Manifiesto Ágil.
+    
+    	... Si, de verdad existe eso, el link es \emph{http://agilemanifesto.org/} 
+    
+    	Esta metodología está arraigada en la planificación adaptativa, la entrega temprana y
+    	\textbf{la mejora continua}, todo con miras a poder responder al cambio de forma rápida
+    	y fácil.
+    
+    	En un mundo como el actual nosotros decimos que la ``capacidad de adaptación al cambio''
+    	es el beneficio número uno de abrazar Agil.
+    
+    	El desarrollo de software ágil describe un enfoque para el desarrollo de software según
+    	el cual los requisitos y las soluciones evolucionan a través del esfuerzo colaborativo de
+    	los equipos multifuncionales autoorganizados y sus clientes / usuarios finales. Habla por
+    	la planificación adaptativa, el desarrollo evolutivo, la entrega temprana y la mejora continua,
+    	y fomenta una respuesta rápida y flexible al cambio.
+    
+    
+    	Al tratar de definir ágil, muchas personas asocian la agilidad con la velocidad. Dicen que ser más
+    	ágil significa hacer las cosas más rápido. Cuando defino ágil, me gusta echar un vistazo a la
+    	definición de agilidad desde otro ángulo:
+    
+    	``La agilidad es la capacidad de cambiar la dirección del cuerpo de una manera eficiente y efectiva.'' - Wikipedia
+    	
+    	
+    	\clearpage
+    
+    	Lograr esto requiere una combinación de:
+    
+    	\begin{itemize}
+    		\item \textbf{Equilibrio}
+    
+    			La capacidad de mantener el equilibrio cuando está parado o en movimiento
+    			(es decir, para no caerse) a través de las acciones coordinadas de nuestras
+    			funciones sensoriales (ojos, oídos y órganos propioceptivos en nuestras articulaciones).
+    
+    		\item \textbf{Velocidad}
+    			La capacidad de mover todo o parte del cuerpo rápidamente.
+    
+    		\item \textbf{Fuerza}
+    			La capacidad de un músculo o grupo muscular para vencer una resistencia.
+    
+    		\item \textbf{Coordinación}
+    			La capacidad de controlar el movimiento del cuerpo en cooperación con las funciones
+    			sensoriales del cuerpo.
+    	\end{itemize}
+    
+    	Ahora podemos intentar adaptar esta definición del cuerpo a un equipo.
+    
+    	\textbf{Tomar esta metodología es la capacidad de un equipo para cambiar la dirección del
+    	desarrollo de una manera eficiente y efectiva.}
+    
+    
+    	Lograr esto requiere una combinación de:
+    
+    	\begin{itemize}
+    		\item \textbf{Equilibrio}
+    
+    			Poder cambiar el esfuerzo de desarrollo en cualquier dirección.
+    
+    		\item \textbf{Velocidad}
+    			La capacidad de ejecutar tareas individuales rápidamente.
+    
+    		\item \textbf{Fuerza}
+    			La capacidad de ejecutar tareas difíciles.
+    
+    		\item \textbf{Coordinación}
+    			La capacidad de coordinar dentro del equipo, y con las diferentes partes interesadas y clientes.
+    	\end{itemize}
+    
+    	Al leer acerca de ágil, nos encontramos con diferentes marcos y técnicas. 
+    	El manifiesto ágil es un esfuerzo conjunto de muchos desarrolladores conocidos para escribir
+    	principios para el desarrollo de software ágil.
+    
+    	Al usar algo como Scrum, obtienes muchas técnicas listas para usar. No es necesario seguir las reglas del libro,
+    	pero los conceptos están ahí por una razón y tiene sentido entenderlos. No quiero aburrirlo con demasiados
+    	detalles sobre Scrum y puede leer más sobre él si está interesado.
+    
+    
+    
+    
+    
+
+    
+    
+    
+% ===============================================================================
+% ===============                PLANEACION                ======================
+% ===============================================================================
+\chapter{Planeación}
+
+    \clearpage
+
+    % ==============================================
+    % =========        METAS              ==========
+    % ==============================================
+    \section{Metas aka Prototipos}
+    
+        \begin{enumerate}
+            \item \textbf{Realizar cuentas de productos mediante código de barras y bases de datos donde la venta se pueda realizar por cantidad o precio, cancelar produtos o añadir productos por nombre y por código.}
+            
+            Es decir, el sistema será capaz de calcular el precio exacto de algún alimento dado su peso y viceversa, agrupar precio unitario y cantidad en \emph{ítems} de compra. También será flexible y podremos modificar la lista total de productos (añadir más o quitar en caso de equivocación) mientras no hayamos confirmado la compra, y si no se puede localizar el código de algún artículo (ya sea por fallo de hardware o porque no viene impreso en él) podremos buscarlo en la base de datos por su nombre o descripción.
+            
+            
+            \item \textbf{Poder realizar consultas de precios, actualizar y modificar la base de datos directamente desde la aplicación.}
+            
+            Tenemos la idea de que solo será necesaria la aplicación para tener el control total de la tienda completa, así que no estaremos manipulando directamente la base de datos para modificar su contenido, evitando así problemas de inconsistencia.
+            
+            \item \textbf{Contar con un sistema de inventario.}
+            
+            Connsiderando todos los productos en la base de datos (tanto en existencia como agotados), la aplicación será capaz de reportar un informe detallado de todos ellos, con campos como nombre, precio, descripción, cantidad en existencia inicial, cantidad en stock, entradas, salidas, etc.
+            
+            
+            \item \textbf{Poder crear análisis basados en la cantidad vendida, por ejemplo, productos más vendidos, vendedores más productivos, entre otras cosas.}
+            
+            Dichos análisis estarán disponibles en una variedad de formatos (gráficas, tablas, etc.) con el fin de llevar una mejor administración y detectar posibles fallos.
+            
+            
+            \item \textbf{Crear un sistema de análisis de proveedores y de planes diarios.}
+            
+            Teniendo en cuenta a todos los proveedores disponibles y las existencias de los productos, escogeremos de forma automática al proveedor que nos suministre lo que nos haga falta y agendaremos la cita en el mejor tiempo posible.
+            
+            
+            \item \textbf{Poder comunicarse con la planificación remotamente para modificar planes del día y proveedores.}
+            
+            En caso de algún imprevisto, siempre podremos modificar de forma manual los planes y eventos relacionados.
+            
+
+        \end{enumerate}
+    
+    
+    \clearpage
+    
+    % ==============================================
+    % =========        TIEMPOS            ==========
+    % ==============================================
+    \section{Tiempos Tentativos Actuales}
+    
+    Por la misma naturaleza de nuestro proyecto y la metología que decidimos usar
+    estas fechas son altamente especulativas,  y citando el mismo manifesto de Agile:
+    \Quote{responder al cambio antes que seguir planes estríctos}
+    
+    \begin{table}[H]
+        \centering
+        \resizebox{\textwidth}{!}{
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \textbf{\#} & \textbf{Actividad - Meta} & \textbf{Inicio} & \textbf{Fin} & \textbf{Responsable} \\ \hline
+            1 & Planeación de proyecto & 19/02/2018 & 25/02/2018 & Equipo \\ \hline
+            2 & Metodología y planeación & 25/02/2018 & 28/02/2018 & Laura, Alan \\ \hline
+            3 & Estudio de viabilidad & 01/03/2018 & 04/03/2018 & Laura \\ \hline
+            4 & Análisis de Requerimientos & 04/03/2018 & 06/03/2018 & Laura \\ \hline
+            5 & Creación de la base de datos para el inventario & 07/03/2018 & 11/03/2018 & Alan \\ \hline
+            6 & Captura de artículos en la BD & 12/03/2018 & 17/03/2018 & Oscar \\ \hline
+            7 & Protipo capaz del punto 1: Ventas & 26/03/2018 & 31/03/2018 & Oscar \\ \hline
+            8 & Protipo capaz del punto 2: Consulta de Precios & 2/04/2018 & 7/04/2018 & Equipo \\ \hline
+            9 & Protipo capaz de punto 3: Inventario & 9/04/2018 & 13/04/2018 & Equipo \\ \hline
+            10 & Prototipo capaz del punto 4: Análisis de Ventas & 16/04/2018 & 20/04/2018 & Equipo \\ \hline
+            11 & Prototipo capaz del punto 5: Sistema de Proveedores & 23/04/2018 & 27/04/2018 & Equipo \\ \hline
+            12 & Prototipo capaz del punto 6: Comunicación externa con el sistema & 30/04/2018 & 04/05/2018 & Equipo \\ \hline
+            
+        \end{tabular}}
+        
+    \end{table}
+    
+    \begin{gantt}{13}{10}
+        \begin{ganttitle}
+            \numtitle{2}{1}{6}{2}
+        \end{ganttitle}
+        \ganttbar{Planeación de proyecto}{1.35}{0.42}
+        \ganttbarcon{Metodología y planeación}{1.78}{0.21}
+        \ganttbarcon{Estudio de viabilidad}{2}{0.19}
+        \ganttbarcon{Análisis de requerimientos}{2.19}{0.12}
+        \ganttbarcon{Creación de la BD}{2.38}{0.25}
+        \ganttbarcon{Captura de artículos}{2.70}{0.32}
+        \ganttbarcon{Prototipo 1}{3.61}{0.32}
+        \ganttbarcon{Prototipo 2}{4.06}{0.33}
+        \ganttbarcon{Prototipo 3}{4.53}{0.26}
+        \ganttbarcon{Prototipo 4}{5}{0.26}
+        \ganttbarcon{Prototipo 5}{5.46}{0.26}
+        \ganttbarcon{Prototipo 6}{5.93}{0.26}
+    \end{gantt}
+    
+    
+    % ==============================================
+    % ========        ENCARGADOS     ===============
+    % ==============================================
+    \clearpage
+    \section{Encargados, Roles y Responsables}
+    
+
+        Lo primero es lo primero. En un equipo ágil, el propietario del producto se
+        ocupa de la gestión empresarial y el equipo de entrega se ocupa de la gestión técnica.
+        
+        Y si, \textbf{usaremos termnología de SCRUM, pero es que describe perfecto nuestro
+        sistema de roles interno}.
+        
+        Más en detalle se encuentra:
+        
+        \begin{itemize}
+            \item 
+                \textbf{Scrum Master: Alan Enrique Ontiveros}
+                
+                El scrum master es un gerente de proyecto.
+                Él es responsable de ayudar al equipo y obtener los recursos que necesitan. 
+                Él los protege de los problemas y las distracciones. 
+                También trabaja con el propietario del producto para asegurarse de que todo
+                esté listo para ``Sprints''. 
+                
+                Él es en realidad el que está a cargo de dirigir las reuniones.
+    
+    
+                Está contínuamente ayudando al equipo a mejorar su capacidad para cumplir los
+                compromisos de forma predecible, este rol de liderazgo es el responsable de hacer
+                cumplir las mejores prácticas y principios ágiles del resto del equipo.
+    
+                Se asegura de que el equipo funcione bien y de que sean productivos y se centren en
+                el objetivo.
+
+            \item 
+                \textbf{Dueño del Producto: Oscar Andrés Rosas}
+                
+                Rrepresenta el negocio y entiende profundamente las necesidades del cliente. 
+
+                Son responsable de la visión y la definición del producto. 
+                En cierto modo, él es la voz del cliente. 
+                
+                Una de sus funciones es asegurar que el equipo de agile trabaje en las 
+                ``cosas correctas'' desde la perspectiva del negocio, son los responsables de
+                priorizar la acumulación de productos o características del producto.
+            \item 
+                \textbf{Interesado: Laura Andrea Morales}
+                
+                El interesado puede ser un usuario directo o indirecto de la plataforma, un administrador de usuarios, gerente, miembro del personal de operaciones, el "propietario del oro" que financia el proyecto, el personal de soporte (mesa de ayuda), los auditores, el administrador de su programa / cartera , desarrolladores que trabajan en otros sistemas que se integran o interactúan con el que está en desarrollo, o profesionales de mantenimiento potencialmente afectados por el desarrollo y / o implementación de un proyecto de software.
+                
+            \clearpage
+            
+            \item
+                \textbf{Scrum Team: Laura, Alan y Oscar}
+                
+                El equipo debe tener todas las habilidades necesarias para construir, evaluar y entregar un valor total a los clientes y partes interesadas. No se trata solo de codificación, se trata de un código que funciona y que se prueba y se implementa.
+
+ 
+
+                Son responsables de crear y entregar un sistema que implica actividades de modelado, programación, prueba y lanzamiento, al tiempo que tienen diferentes funciones de trabajo, centrándose en completar las necesidades de los usuarios.
+
+                Cada miembro del equipo tiene la función de participar activamente en el equipo. Cada uno de ellos está a cargo de descomponer las necesidades de los usuarios en tareas y estimar esas tareas con precisión. A menudo, asume nuevas tareas desconocidas. Él también tiene que hacer compromisos con respecto a la entrega y tiene la responsabilidad de cumplirlos.
+        
+        \end{itemize}
+	
+
+
+    
+
+
+
+
+% ===============================================
+% ========        BIBLIO      ===================
+% ===============================================
+\begin{thebibliography}{10}
+
+    \bibitem{CodeName1} 
+        Agile Manifiesto
+        \textit{http://agilemanifesto.org/}. 
+
+    \bibitem{CodeName2} 
+    	Frank Rosner J, Explain Agile Like I'm a Sports Student 
+        \textit{https://dev.to/frosnerd/explain-agile-like-im-a-sports-student-3m8l}. 
+        
+    \bibitem{CodeName3} 
+        Francisco Ruiz, Fac. de Ciencias
+        \textit{https://www.ctr.unican.es/asignaturas/is1/is1-t02-trans.pdf}. 
+
+\end{thebibliography}
+
+\end{document}

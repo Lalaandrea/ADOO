@@ -1,0 +1,649 @@
+% ****************************************************************************************
+% ************************              ADOO                  ****************************
+% ****************************************************************************************
+
+
+% =======================================================
+% =======         HEADER FOR DOCUMENT        ============
+% =======================================================
+    
+    % *********   HEADERS AND FOOTERS ********
+    \def\ProjectAuthorLink{https://github.com/SoyOscarRH}           %Just to keep it in line
+    \def\ProjectNameLink{\ProjectAuthorLink/Proyect}                %Link to Proyect
+
+    % *********   DOCUMENT ITSELF   **************
+    \documentclass[12pt, fleqn]{report}                             %Type of document and size of font and left eq
+    \usepackage[spanish]{babel}                                     %Please use spanish
+    \usepackage[utf8]{inputenc}                                     %Please use spanish - UFT
+    \usepackage[margin = 1.2in]{geometry}                           %Margins and Geometry pacakge
+    \usepackage{ifthen}                                             %Allow simple programming
+    \usepackage{hyperref}                                           %Create MetaData for a PDF and LINKS!
+    \usepackage{pdfpages}                                           %Create MetaData for a PDF and LINKS!
+    \hypersetup{pageanchor = false}                                 %Solve 'double page 1' warnings in build
+    \setlength{\parindent}{0pt}                                     %Eliminate ugly indentation
+    \author{Oscar Rosas, Alan Ontiveros y Laura Morales}            %Who I am
+
+    % *********   LANGUAJE    *****************
+    \usepackage[T1]{fontenc}                                        %Please use spanish
+    \usepackage{textcmds}                                           %Allow us to use quoutes
+    \usepackage{changepage}                                         %Allow us to use identate paragraphs
+    \usepackage{anyfontsize}                                        %All the sizes
+
+    % *********   MATH AND HIS STYLE  *********
+    \usepackage{ntheorem, amsmath, amssymb, amsfonts}               %All fucking math, I want all!
+    \usepackage{mathrsfs, mathtools, empheq}                        %All fucking math, I want all!
+    \usepackage{cancel}                                             %Negate symbol
+    \usepackage{centernot}                                          %Allow me to negate a symbol
+    \decimalpoint                                                   %Use decimal point
+
+    % *********   GRAPHICS AND IMAGES *********
+    \usepackage{graphicx}                                           %Allow to create graphics
+    \usepackage{float}                                              %For images
+    \usepackage{wrapfig}                                            %Allow to create images
+    \graphicspath{ {Graphics/} }                                    %Where are the images :D
+
+    % *********   LISTS AND TABLES ***********
+    \usepackage{listings, listingsutf8}                             %We will be using code here
+    \usepackage[inline]{enumitem}                                   %We will need to enumarate
+    \usepackage{tasks}                                              %Horizontal lists
+    \usepackage{longtable}                                          %Lets make tables awesome
+    \usepackage{booktabs}                                           %Lets make tables awesome
+    \usepackage{tabularx}                                           %Lets make tables awesome
+    \usepackage{multirow}                                           %Lets make tables awesome
+    \usepackage{multicol}                                           %Create multicolumns
+
+    % *********   HEADERS AND FOOTERS ********
+    \usepackage{fancyhdr}                                           %Lets make awesome headers/footers
+    \pagestyle{fancy}                                               %Lets make awesome headers/footers
+    \setlength{\headheight}{16pt}                                   %Top line
+    \setlength{\parskip}{0.5em}                                     %Top line
+    \renewcommand{\footrulewidth}{0.5pt}                            %Bottom line
+
+    \lhead {                                                        %Left Header
+        \hyperlink{chapter.\arabic{chapter}}                        %Make a link to the current chapter
+        {\normalsize{\textsc{\nouppercase{\leftmark}}}}             %And fot it put the name
+    }
+
+    \rhead {                                                        %Right Header
+        \hyperlink{section.\arabic{chapter}.\arabic{section}}       %Make a link to the current chapter
+            {\footnotesize{\textsc{\nouppercase{\rightmark}}}}      %And fot it put the name
+    }
+
+    \rfoot{\textsc{\small{\hyperref[sec:Index]{Ve al Índice}}}}     %This will always be a footer  
+
+    \fancyfoot[L]{                                                  %Algoritm for a changing footer
+        \ifthenelse{\isodd{\value{page}}}                           %IF ODD PAGE:
+            {\href{https://compilandoconocimiento.com/nosotros/}    %DO THIS:
+                {\tiny                                              %Send the page
+                    {\textsc{                                       %Send the page
+                    Oscar Rosas, Alan Ontiveros y Laura Morale}}}}  %Send the page
+            {\href{https://compilandoconocimiento.com}              %ELSE DO THIS: 
+                {\footnotesize                                      %Send the author
+                    {\textsc{T de Tiendita}}}}                      %Send the author
+    }
+    
+    
+    
+% =======================================================
+% ===================   COMMANDS    =====================
+% =======================================================
+
+    % =========================================
+    % =======   NEW ENVIRONMENTS   ============
+    % =========================================
+    \newenvironment{Indentation}[1][0.75em]                         %Use: \begin{Inde...}[Num]...\end{Inde...}
+        {\begin{adjustwidth}{#1}{}}                                 %If you dont put nothing i will use 0.75 em
+        {\end{adjustwidth}}                                         %This indentate a paragraph
+    \newenvironment{SmallIndentation}[1][0.75em]                    %Use: The same that we upper one, just 
+        {\begin{adjustwidth}{#1}{}\begin{footnotesize}}             %footnotesize size of letter by default
+        {\end{footnotesize}\end{adjustwidth}}                       %that's it
+
+    \newenvironment{MultiLineEquation}[1]                           %Use: To create MultiLine equations
+        {\begin{equation}\begin{alignedat}{#1}}                     %Use: \begin{Multi..}{Num. de Columnas}
+        {\end{alignedat}\end{equation}}                             %And.. that's it!
+    \newenvironment{MultiLineEquation*}[1]                          %Use: To create MultiLine equations
+        {\begin{equation*}\begin{alignedat}{#1}}                    %Use: \begin{Multi..}{Num. de Columnas}
+        {\end{alignedat}\end{equation*}}                            %And.. that's it!
+    
+
+    % =========================================
+    % == GENERAL TEXT & SYMBOLS ENVIRONMENTS ==
+    % =========================================
+    
+    % =====  TEXT  ======================
+    \newcommand \Quote {\qq}                                        %Use: \Quote to use quotes
+    \newcommand \Over {\overline}                                   %Use: \Bar to use just for short
+    \newcommand \ForceNewLine {$\Space$\\}                          %Use it in theorems for example
+
+    % =====  SPACES  ====================
+    \DeclareMathOperator \Space {\quad}                             %Use: \Space for a cool mega space
+    \DeclareMathOperator \MegaSpace {\quad \quad}                   %Use: \MegaSpace for a cool mega mega space
+    \DeclareMathOperator \MiniSpace {\;}                            %Use: \Space for a cool mini space
+    
+    % =====  MATH TEXT  =================
+    \newcommand \Such {\MiniSpace | \MiniSpace}                     %Use: \Such like in sets
+    \newcommand \Also {\MiniSpace \text{y} \MiniSpace}              %Use: \Also so it's look cool
+    \newcommand \Remember[1]{\Space\text{\scriptsize{#1}}}          %Use: \Remember so it's look cool
+    
+    % =====  THEOREMS  ==================
+    \newtheorem{Theorem}{Teorema}[section]                          %Use: \begin{Theorem}[Name]\label{Nombre}...
+    \newtheorem{Corollary}{Colorario}[Theorem]                      %Use: \begin{Corollary}[Name]\label{Nombre}...
+    \newtheorem{Lemma}[Theorem]{Lemma}                              %Use: \begin{Lemma}[Name]\label{Nombre}...
+    \newtheorem{Definition}{Definición}[section]                    %Use: \begin{Definition}[Name]\label{Nombre}...
+    \theoremstyle{break}                                            %THEOREMS START 1 SPACE AFTER
+
+    % =====  LOGIC  =====================
+    \newcommand \lIff {\leftrightarrow}                             %Use: \lIff for logic iff
+    \newcommand \lEqual {\MiniSpace \Leftrightarrow \MiniSpace}     %Use: \lEqual for a logic double arrow
+    \newcommand \lInfire {\MiniSpace \Rightarrow \MiniSpace}        %Use: \lInfire for a logic infire
+    \newcommand \lLongTo {\longrightarrow}                          %Use: \lLongTo for a long arrow
+
+    % =====  FAMOUS SETS  ===============
+    \DeclareMathOperator \Naturals     {\mathbb{N}}                 %Use: \Naturals por Notation
+    \DeclareMathOperator \Primes       {\mathbb{P}}                 %Use: \Primes por Notation
+    \DeclareMathOperator \Integers     {\mathbb{Z}}                 %Use: \Integers por Notation
+    \DeclareMathOperator \Racionals    {\mathbb{Q}}                 %Use: \Racionals por Notation
+    \DeclareMathOperator \Reals        {\mathbb{R}}                 %Use: \Reals por Notation
+    \DeclareMathOperator \Complexs     {\mathbb{C}}                 %Use: \Complex por Notation
+    \DeclareMathOperator \GenericField {\mathbb{F}}                 %Use: \GenericField por Notation
+    \DeclareMathOperator \VectorSet    {\mathbb{V}}                 %Use: \VectorSet por Notation
+    \DeclareMathOperator \SubVectorSet {\mathbb{W}}                 %Use: \SubVectorSet por Notation
+    \DeclareMathOperator \Polynomials  {\mathbb{P}}                 %Use: \Polynomials por Notation
+
+    % =====  CONTAINERS   ===============
+    \newcommand{\Set}[1]{\left\{ \; #1 \; \right\}}                 %Use: \Set {Info} for INTELLIGENT space 
+    \newcommand{\bigSet}[1]{\big\{ \; #1 \; \big\}}                 %Use: \bigSet  {Info} for space 
+    \newcommand{\BigSet}[1]{\Big\{ \; #1 \; \Big\}}                 %Use: \BigSet  {Info} for space 
+    \newcommand{\biggSet}[1]{\bigg\{ \; #1 \; \bigg\}}              %Use: \biggSet {Info} for space 
+    \newcommand{\BiggSet}[1]{\Bigg\{ \; #1 \; \Bigg\}}              %Use: \BiggSet {Info} for space 
+    
+    \newcommand{\Brackets}[1]{\left[ #1 \right]}                    %Use: \Brackets {Info} for INTELLIGENT space
+    \newcommand{\bigBrackets}[1]{\big[ \; #1 \; \big]}              %Use: \bigBrackets  {Info} for space 
+    \newcommand{\BigBrackets}[1]{\Big[ \; #1 \; \Big]}              %Use: \BigBrackets  {Info} for space 
+    \newcommand{\biggBrackets}[1]{\bigg[ \; #1 \; \bigg]}           %Use: \biggBrackets {Info} for space 
+    \newcommand{\BiggBrackets}[1]{\Bigg[ \; #1 \; \Bigg]}           %Use: \BiggBrackets {Info} for space 
+    
+    \newcommand{\Wrap}[1]{\left( #1 \right)}                        %Use: \Wrap {Info} for INTELLIGENT space
+    \newcommand{\bigWrap}[1]{\big( \; #1 \; \big)}                  %Use: \bigBrackets  {Info} for space 
+    \newcommand{\BigWrap}[1]{\Big( \; #1 \; \Big)}                  %Use: \BigBrackets  {Info} for space 
+    \newcommand{\biggWrap}[1]{\bigg( \; #1 \; \bigg)}               %Use: \biggBrackets {Info} for space 
+    \newcommand{\BiggWrap}[1]{\Bigg( \; #1 \; \Bigg)}               %Use: \BiggBrackets {Info} for space 
+
+    % =====  BETTERS MATH COMMANDS   =====
+    \newcommand{\pfrac}[2]{\Wrap{\dfrac{#1}{#2}}}                   %Use: Put fractions in parentesis
+
+    % =========================================
+    % ====   LINEAL ALGEBRA & VECTORS    ======
+    % =========================================
+
+    % ===== UNIT VECTORS  ================
+    \newcommand{\hati} {\hat{\imath}}                               %Use: \hati for unit vector    
+    \newcommand{\hatj} {\hat{\jmath}}                               %Use: \hatj for unit vector    
+    \newcommand{\hatk} {\hat{k}}                                    %Use: \hatk for unit vector
+
+    % ===== MAGNITUDE  ===================
+    \newcommand{\abs}[1]{\left\lvert #1 \right\lvert}               %Use: \abs{expression} for |x|
+    \newcommand{\Abs}[1]{\left\lVert #1 \right\lVert}               %Use: \Abs{expression} for ||x||
+    \newcommand{\Mag}[1]{\left| #1 \right|}                         %Use: \Mag {Info} 
+    
+    \DeclareMathOperator \LinealTransformation {\mathcal{T}}        %Use: \LinealTransformation for a cool T
+    \newcommand{\bVec}[1]{\mathbf{#1}}                              %Use for bold type of vector
+    \newcommand{\lVec}[1]{\overrightarrow{#1}}                      %Use for a long arrow over a vector
+    \newcommand{\uVec}[1]{\mathbf{\hat{#1}}}                        %Use: Unitary Vector Example: $\uVec{i}
+
+    % ===== ALL FOR DOT PRODUCT  =========
+    \makeatletter                                                   %WTF! IS THIS
+    \newcommand*\dotP{\mathpalette\dotP@{.5}}                       %Use: \dotP for dot product
+    \newcommand*\dotP@[2] {\mathbin {                               %WTF! IS THIS            
+        \vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}           %WTF! IS THIS
+    }                                                               %WTF! IS THIS
+    \makeatother                                                    %WTF! IS THIS
+
+    % === WRAPPERS FOR COLUMN VECTOR ===
+    \newcommand{\pVector}[1]                                        %Use: \pVector {Matrix Notation} use parentesis
+        { \ensuremath{\begin{pmatrix}#1\end{pmatrix}} }             %Example: \pVector{a\\b\\c} or \pVector{a&b&c} 
+    \newcommand{\lVector}[1]                                        %Use: \lVector {Matrix Notation} use a abs 
+        { \ensuremath{\begin{vmatrix}#1\end{vmatrix}} }             %Example: \lVector{a\\b\\c} or \lVector{a&b&c} 
+    \newcommand{\bVector}[1]                                        %Use: \bVector {Matrix Notation} use a brackets 
+        { \ensuremath{\begin{bmatrix}#1\end{bmatrix}} }             %Example: \bVector{a\\b\\c} or \bVector{a&b&c} 
+    \newcommand{\Vector}[1]                                         %Use: \Vector {Matrix Notation} no parentesis
+        { \ensuremath{\begin{matrix}#1\end{matrix}} }               %Example: \Vector{a\\b\\c} or \Vector{a&b&c}
+
+    % === MAKE MATRIX BETTER  =========
+    \makeatletter                                                   %Example: \begin{matrix}[cc|c]
+    \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c] {             %WTF! IS THIS
+        \hskip -\arraycolsep                                        %WTF! IS THIS
+        \let\@ifnextchar\new@ifnextchar                             %WTF! IS THIS
+        \array{#1}                                                  %WTF! IS THIS
+    }                                                               %WTF! IS THIS
+    \makeatother                                                    %WTF! IS THIS
+
+    % =========================================
+    % =======   FAMOUS FUNCTIONS   ============
+    % =========================================
+
+    % == TRIGONOMETRIC FUNCTIONS  ====
+    \newcommand{\Cos}[1] {\cos\Wrap{#1}}                            %Simple wrappers
+    \newcommand{\Sin}[1] {\sin\Wrap{#1}}                            %Simple wrappers
+    \newcommand{\Tan}[1] {tan\Wrap{#1}}                             %Simple wrappers
+    
+    \newcommand{\Sec}[1] {sec\Wrap{#1}}                             %Simple wrappers
+    \newcommand{\Csc}[1] {csc\Wrap{#1}}                             %Simple wrappers
+    \newcommand{\Cot}[1] {cot\Wrap{#1}}                             %Simple wrappers
+
+    % === COMPLEX ANALYSIS TRIG ======
+    \newcommand \Cis[1]  {\Cos{#1} + i \Sin{#1}}                    %Use: \Cis for cos(x) + i sin(x)
+    \newcommand \pCis[1] {\Wrap{\Cis{#1}}}                          %Use: \pCis for the same with parantesis
+    \newcommand \bCis[1] {\Brackets{\Cis{#1}}}                      %Use: \bCis for the same with Brackets
+
+
+    % =========================================
+    % ===========     CALCULUS     ============
+    % =========================================
+
+    % ====== TRANSFORMS =============
+    \newcommand{\FourierT}[1]{\mathscr{F} \left\{ #1 \right\} }     %Use: \FourierT {Funtion}
+    \newcommand{\InvFourierT}[1]{\mathscr{F}^{-1}\left\{#1\right\}} %Use: \InvFourierT {Funtion}
+
+    % ====== DERIVATIVES ============
+    \newcommand \MiniDerivate[1][x] {\dfrac{d}{d #1}}               %Use: \MiniDerivate[var] for simple use [var]
+    \newcommand \Derivate[2] {\dfrac{d \; #1}{d #2}}                %Use: \Derivate [f(x)][x]
+    \newcommand \MiniUpperDerivate[2] {\dfrac{d^{#2}}{d#1^{#2}}}    %Mini Derivate High Orden Derivate -- [x][pow]
+    \newcommand \UpperDerivate[3] {\dfrac{d^{#3} \; #1}{d#2^{#3}}}  %Complete High Orden Derivate -- [f(x)][x][pow]
+    
+    \newcommand \MiniPartial[1][x] {\dfrac{\partial}{\partial #1}}  %Use: \MiniDerivate for simple use [var]
+    \newcommand \Partial[2] {\dfrac{\partial \; #1}{\partial #2}}   %Complete Partial Derivate -- [f(x)][x]
+    \newcommand \MiniUpperPartial[2]                                %Mini Derivate High Orden Derivate -- [x][pow] 
+        {\dfrac{\partial^{#2}}{\partial #1^{#2}}}                   %Mini Derivate High Orden Derivate
+    \newcommand \UpperPartial[3]                                    %Complete High Orden Derivate -- [f(x)][x][pow]
+        {\dfrac{\partial^{#3} \; #1}{\partial#2^{#3}}}              %Use: \UpperDerivate for simple use
+
+    \DeclareMathOperator \Evaluate  {\Big|}                         %Use: \Evaluate por Notation
+
+    % =========================================
+    % ========    GENERAL STYLE     ===========
+    % =========================================
+    
+    % =====  COLORS ==================
+    \definecolor{RedMD}{HTML}{F44336}                               %Use: Color :D        
+    \definecolor{Red100MD}{HTML}{FFCDD2}                            %Use: Color :D        
+    \definecolor{Red200MD}{HTML}{EF9A9A}                            %Use: Color :D        
+    \definecolor{Red300MD}{HTML}{E57373}                            %Use: Color :D        
+    \definecolor{Red700MD}{HTML}{D32F2F}                            %Use: Color :D 
+
+    \definecolor{PurpleMD}{HTML}{9C27B0}                            %Use: Color :D        
+    \definecolor{Purple100MD}{HTML}{E1BEE7}                         %Use: Color :D        
+    \definecolor{Purple200MD}{HTML}{EF9A9A}                         %Use: Color :D        
+    \definecolor{Purple300MD}{HTML}{BA68C8}                         %Use: Color :D        
+    \definecolor{Purple700MD}{HTML}{7B1FA2}                         %Use: Color :D 
+
+    \definecolor{IndigoMD}{HTML}{3F51B5}                            %Use: Color :D        
+    \definecolor{Indigo100MD}{HTML}{C5CAE9}                         %Use: Color :D        
+    \definecolor{Indigo200MD}{HTML}{9FA8DA}                         %Use: Color :D        
+    \definecolor{Indigo300MD}{HTML}{7986CB}                         %Use: Color :D        
+    \definecolor{Indigo700MD}{HTML}{303F9F}                         %Use: Color :D 
+
+    \definecolor{BlueMD}{HTML}{2196F3}                              %Use: Color :D        
+    \definecolor{Blue100MD}{HTML}{BBDEFB}                           %Use: Color :D        
+    \definecolor{Blue200MD}{HTML}{90CAF9}                           %Use: Color :D        
+    \definecolor{Blue300MD}{HTML}{64B5F6}                           %Use: Color :D        
+    \definecolor{Blue700MD}{HTML}{1976D2}                           %Use: Color :D        
+    \definecolor{Blue900MD}{HTML}{0D47A1}                           %Use: Color :D  
+
+    \definecolor{CyanMD}{HTML}{00BCD4}                              %Use: Color :D        
+    \definecolor{Cyan100MD}{HTML}{B2EBF2}                           %Use: Color :D        
+    \definecolor{Cyan200MD}{HTML}{80DEEA}                           %Use: Color :D        
+    \definecolor{Cyan300MD}{HTML}{4DD0E1}                           %Use: Color :D        
+    \definecolor{Cyan700MD}{HTML}{0097A7}                           %Use: Color :D        
+    \definecolor{Cyan900MD}{HTML}{006064}                           %Use: Color :D 
+
+    \definecolor{TealMD}{HTML}{009688}                              %Use: Color :D        
+    \definecolor{Teal100MD}{HTML}{B2DFDB}                           %Use: Color :D        
+    \definecolor{Teal200MD}{HTML}{80CBC4}                           %Use: Color :D        
+    \definecolor{Teal300MD}{HTML}{4DB6AC}                           %Use: Color :D        
+    \definecolor{Teal700MD}{HTML}{00796B}                           %Use: Color :D        
+    \definecolor{Teal900MD}{HTML}{004D40}                           %Use: Color :D 
+
+    \definecolor{GreenMD}{HTML}{4CAF50}                             %Use: Color :D        
+    \definecolor{Green100MD}{HTML}{C8E6C9}                          %Use: Color :D        
+    \definecolor{Green200MD}{HTML}{A5D6A7}                          %Use: Color :D        
+    \definecolor{Green300MD}{HTML}{81C784}                          %Use: Color :D        
+    \definecolor{Green700MD}{HTML}{388E3C}                          %Use: Color :D        
+    \definecolor{Green900MD}{HTML}{1B5E20}                          %Use: Color :D
+
+    \definecolor{AmberMD}{HTML}{FFC107}                             %Use: Color :D        
+    \definecolor{Amber100MD}{HTML}{FFECB3}                          %Use: Color :D        
+    \definecolor{Amber200MD}{HTML}{FFE082}                          %Use: Color :D        
+    \definecolor{Amber300MD}{HTML}{FFD54F}                          %Use: Color :D        
+    \definecolor{Amber700MD}{HTML}{FFA000}                          %Use: Color :D        
+    \definecolor{Amber900MD}{HTML}{FF6F00}                          %Use: Color :D
+
+    \definecolor{BlueGreyMD}{HTML}{607D8B}                          %Use: Color :D        
+    \definecolor{BlueGrey100MD}{HTML}{CFD8DC}                       %Use: Color :D        
+    \definecolor{BlueGrey200MD}{HTML}{B0BEC5}                       %Use: Color :D        
+    \definecolor{BlueGrey300MD}{HTML}{90A4AE}                       %Use: Color :D        
+    \definecolor{BlueGrey700MD}{HTML}{455A64}                       %Use: Color :D        
+    \definecolor{BlueGrey900MD}{HTML}{263238}                       %Use: Color :D        
+
+    \definecolor{DeepPurpleMD}{HTML}{673AB7}                        %Use: Color :D
+
+    \newcommand{\Color}[2]{\textcolor{#1}{#2}}                      %Simple color environment
+    \newenvironment{ColorText}[1]                                   %Use: \begin{ColorText}
+        { \leavevmode\color{#1}\ignorespaces }                      %That's is!
+
+    % =====  CODE EDITOR =============
+    \lstdefinestyle{CompilandoStyle} {                              %This is Code Style
+        backgroundcolor     = \color{BlueGrey900MD},                %Background Color  
+        basicstyle          = \tiny\color{white},                   %Style of text
+        commentstyle        = \color{BlueGrey200MD},                %Comment style
+        stringstyle         = \color{Green300MD},                   %String style
+        keywordstyle        = \color{Blue300MD},                    %keywords style
+        numberstyle         = \tiny\color{TealMD},                  %Size of a number
+        frame               = shadowbox,                            %Adds a frame around the code
+        breakatwhitespace   = true,                                 %Style   
+        breaklines          = true,                                 %Style   
+        showstringspaces    = false,                                %Hate those spaces                  
+        breaklines          = true,                                 %Style                   
+        keepspaces          = true,                                 %Style                   
+        numbers             = left,                                 %Style                   
+        numbersep           = 10pt,                                 %Style 
+        xleftmargin         = \parindent,                           %Style 
+        tabsize             = 4,                                    %Style
+        inputencoding       = utf8/latin1                           %Allow me to use special chars
+    }
+ 
+    \lstset{style = CompilandoStyle}                                %Use this style
+    
+    
+    
+% =====================================================
+% ============        COVER PAGE       ================
+% =====================================================
+\begin{document}
+\begin{titlepage}
+    
+    % ============ TITLE PAGE STYLE  ================
+    \definecolor{TitlePageColor}{cmyk}{1,.60,0,.40}                 %Simple colors
+    \definecolor{ColorSubtext}{cmyk}{1,.50,0,.10}                   %Simple colors
+    \newgeometry{left=0.20\textwidth}                               %Defines an Offset
+    \pagecolor{TitlePageColor}                                      %Make it this Color to page
+    \color{white}                                                   %General things should be white
+
+    % ===== MAKE SOME SPACE =========
+    \vspace                                                         %Give some space
+    \baselineskip                                                   %But we need this to up command
+
+    % ============ NAME OF THE PROJECT  ============
+    \makebox[0pt][l]{\rule{1.3\textwidth}{3pt}}                     %Make a cool line
+    
+    \href{https://compilandoconocimiento.com}                       %Link to project
+    {\textbf{\textsc{\Huge ESCOM-IPN}}}\\[2.7cm]                    %Name of project   
+
+    % ============ NAME OF THE BOOK  ===============
+    \href{\ProjectNameLink/LibroProbabilidad}                       %Link to Author
+    {\fontsize{36}{50}                                              %Size of the book
+        \selectfont \textbf{Propuesta de Proyecto:}}\\[0.5cm]       %Name of the book
+    {\fontsize{36}{50}                                              %Size of the book
+        \selectfont \textbf{T de Tiendita}}\\[0.5cm]                %Name of the book
+    \textcolor{ColorSubtext}                                        %Color or the topic
+        {\textsc{\LARGE Análisis y Diseño Orientado a Objetos}}     %Name of the general theme
+    
+    \vfill                                                          %Fill the space
+    
+    % ============ NAME OF THE AUTHOR  =============
+    \href{https://compilandoconocimiento.com/yo}                    %Link to Author
+    {\LARGE \textsf{Oscar Rosas, Alan Ontiveros y Laura Morales}}   %Author
+
+    % ===== MAKE SOME SPACE =========
+    \vspace                                                         %Give some space
+    \baselineskip                                                   %But we need this to up command
+    
+    {\large \textsf{Febrero 2018}}                                  %Date
+
+\end{titlepage}
+
+
+% =====================================================
+% ==========      RESTORE TO DOCUMENT      ============
+% =====================================================
+\restoregeometry                                                    %Restores the geometry
+\nopagecolor                                                        %Use to restore the color to white
+
+
+
+
+% =====================================================
+% ========                INDICE              =========
+% =====================================================
+\tableofcontents{}
+\label{sec:Index}
+
+\clearpage
+
+
+
+% ===============================================================================
+% ===============                ANTECEDENTES              ======================
+% ===============================================================================
+\chapter{Antecedentes}
+
+
+    % ===============================================================
+    % =====================     INTRODUCCION   ======================
+    % ===============================================================
+    \clearpage
+    \section{Introducción}
+
+        Como proyecto a trabajar en la unidad de aprendizaje de Análisis y Desarrollo Orientado a Objetos
+        nos disponemos a crear un Sistema basado en Web (usando sobretodo NodeJS, React y Materialize)
+        para poder gestionar un pequeño negocio de abarrotes y papelería.
+        
+        
+        Será capaz de poder guardar los registros de compra de productos basados en una captura de código de barras en
+        un base de datos local y poder generar los reportes correspondientes.
+        
+        
+        Se pretende un sistema de fácil uso, con caracteristicas enfocadas a las necesidades particulares de los clientes a los que se les entregará el sistema.
+        
+        
+        Un Sistema de Punto de Venta es la versión computarizada de una caja registradora tradicional o de un cuaderno para llevar las cuentas, que gracias a la tecnología actual, añade muchas funcionalidades más que antes no existían o dependían de sistemas muy complejos, grandes y caros. Ahora su operación y precios son mucho más accesibles.
+        
+        
+        Comúnmente está compuesto por un dispositivo central (computadora, smartphone, tablet) y varios dispositivos de entrada y salida (escáner de códigos, impresora, cajón de dinero, terminal de cobro para tarjeta de crédito o débito). Cada vez son más compactos y poderosos.
+        
+        
+        Con esto en mente propusimos el siguiente proyecto:
+        
+        
+        
+    % ==============================================================
+    % =========            ANTECEDENTES                =============
+    % ==============================================================
+    \vspace{1em}
+    \section{Antecedentes}
+    
+        Con la computación podemos automatizar y organizar muchos procesos que antes se solián hacer
+        a mano. En nuestro caso, para nuestro proyecto de Análisis y Diseño Orientado a Objetos
+        pensamos en aprovechar la oportunidad de crear un proyecto computacional hecho y derecho
+        para actualizar el sistema que se ocupa en la tienda de abarrotes de mi familia.
+    
+    
+        
+    % ==============================================================
+    % =========            PROBLEMATICA                =============
+    % ==============================================================
+    \section{Problemática}
+    
+        Debido a la gran cantidad de información que se maneja en el negocio familiar buscamos en usar
+        una computadora y una aplicación de contabilidad y venta para que pudieramos usar los beneficios
+        que trae la informática.
+    
+        Han pasado muchos años y la tecnología (sobretodo en estas últimas decadas) crece a niveles
+        exponenciales, por lo tanto a pesar de que apenas han pasado unos pocos años desde que instalamos
+        el sistema ya se siente muy obsoleto, por el requerir de software como VisualFox 95 o una \Quote{base}
+        de datos en MS Access.
+        
+        Por lo mismo pensamos en actualizar el sistema para colocar otro que cumpla mejor nuestos
+        requerimientos, pero nos encontramos en que casi todos eran de costos muy elevados para
+        ser usados y finanzados con las ganancias de una pequeña tiendita de la esquina.
+        
+        Además todos aquellos han sido diseñados para trabajar en miles y miles de terminales, por lo que
+        la interfaz gráfica es lo de menos y buscan mucho mejor que su software pueda correr en terminales
+        cada vez más baratas y que solo se pueden usar para lo mismo, pero ese no es completamente nuestro
+        caso, pues disponemos de una computadora más que decente pero no podemos aprovechar sus beneficios
+        si todas las aplicaciones en el mercado estan mucho más enfocadas en que todo sea lo más eficiente
+        posible.
+        
+        Los clientes que se nos presentan tienen un perfil de conocimiento en software medio de entre intermedio y avanzado, son conformados por una familia y empleados ocasionales.
+        
+        
+        Nos enfrentamos a la dificultad de comunicación entre el escáner de datos y el sofware a realizar, la seguridad de la base de datos y gestionamiento de usuarios.
+    
+    
+    % ==============================================================
+    % =========          SOLUCIONES EXISTENTES         =============
+    % ==============================================================
+    \section{Soluciones Existentes}
+    
+    Al ser un tipo de sistema común la cantidad de sofware que ya existe es enorme:
+    
+    \begin{itemize}
+        \item Tenemos por ejemplo \emph{SICAR}: Este es un gestor para diferentes giros con muchas aplicaciones, compra venta, pago de servicios, inventario, monedero electrónico.
+    
+        En este sistema tenemos que el precio de compra es de \$4,000.00 y además no cuenta con facturación ni gestionamientos entre empleados y jefes.
+    
+    
+        \item Con \emph{ASPEL} y \emph{COMPAQ} tenemos un sistema de facturación, control de usuarios, uso touch... Son cuestiones por las que pagas mensualmente una cantidad, tampoco tiene gestionamientos entre empleados y jefes.
+    
+        \item El software \emph{Punto de Venta eleventa} ofrece muchas menos caracteristicas dejando básicamente facturación, ganancias y reduccion de costos. Eleventa tiene una interfaz amigable.
+    \end{itemize}
+    
+    Podemos ver que un sistema así es difícil que se obtenga solo para lo que necesitas o que tenga lo que quieres: Lo que nos diferencia es la interfaz amigable y que los usuarios puedan tener funcionalidades específicas requeridas como el gestionamiento de permisos de usuarios.
+    
+    
+    
+    
+
+% ===============================================================================
+% ==================       PROPUESTA DE PROYECTO       ==========================
+% ===============================================================================
+\chapter{Propuesta de Proyecto}
+
+
+    % ==============================================================
+    % =========            OBJETIVOS                   =============
+    % ==============================================================
+    \clearpage
+    \section{Objetivos Generales}
+    
+        \begin{itemize}
+            \item 
+                Buscamos crear un sitema que permita organizar toda la administración de una tienda
+                de abarrotes y todas las subdivisiones de la organización de manera concisa, confiable
+                y segura.
+
+            \item
+                Queremos que dicha aplicación web pueda ser usada con gran facilidad, importando lo menos
+                posible sistema operativo que usen nuestros clientes para usar la aplicación así como el
+                disposivito que utilicen, sea un tablet, un celular o una computadora (de cualquier gama).
+
+            \item
+                Buscamos que la interfaz final que vean los usuario sea agradable a la vista, que sea intuitiva
+                y siga las directices modernas de la creación del UX.
+            
+            \item
+                Buscamos que sea de fácil mejoramiento, que dicha aplicación esté bien documentada
+                y que su arquitectura sea capaz der ser actualizable y corregir de la manera más rápida
+                cualquier error que tuviera nuestra aplicación.
+
+            \item
+                Buscamos que la información que tenga nuestra aplicación web en la base de datos sea de fácil
+                acceso para la creación posterior de nuevas interfaces y aplicaciones, así como para su
+                mantenimiento y escalabilidad.
+
+            \item
+                Buscamos la mayor seguridad en los datos, de tal manera que sean lo más confiables posible.
+
+            \item
+                Buscamos que nuestra aplicación web permita diferentes perfiles de usuarios, para mejorar la
+                confiabilidad y seguridad del sistema permitiendo a cierto tipo de usuarios solo hacer ciertas
+                actividades y tener la capacidad de leer / modificar ciertos datos dentro del sistema.
+
+        \end{itemize}
+
+    
+    
+    % ==============================================================
+    % =========        PROPUESTA DE SOLUCION           =============
+    % ==============================================================
+    \clearpage
+    \section{Propuesta 0.1V}
+    
+                
+        % ============================================
+        % =========        TECNOLOGIA       ==========
+        % ============================================
+        \subsection{Objetivos Particulares}
+        
+            \begin{itemize}
+                \item 
+                    Crea un conjunto de menus que sean una Single Web App, es decir, una aplicación web
+                    que solo necesita ser cargada una sola vez y desde ahí trabajar con conexión con el
+                    servidor mediante Sockets o JSON.
+                
+                \item
+                    Crear una SWA que nos permita usar de INPUT una máquina lectora de código de barras,
+                    necesitamos que podamos acceder a la base de datos de nuestros productos para crear
+                    una especie de \Quote{carrito de compras} que nos diga cuánto debe pagar un cliente.
+                    
+                    Esta tiene que ser capaz de dar el mismo producto para diferenetes códigos de barras,
+                    por ejemplo, para todos los Boings de medio litro, sin importar el sabor.
+                    
+                    Tiene que ser capaz de poder procesar ciertos prodcutos no solo por cantidad entera sino también
+                    por fragmento, por ejemplo, 0.5 de Huevo o podemos hacerlo por precio, por ejemplo, 
+                    \$ 20 pesos de longaniza.
+                    
+                    Además, esta Web App tiene que ser capaz de poder elegir entre diversos usuarios para
+                    saber quién es el encargado actual.
+                    
+                \item
+                    Ser capaz de mostrar los datos más relevantes de nuestra base de datos, es decir,
+                    poder mostrar la cantidad que se ha vendido en los últimos dias, quién de los encargados
+                    vende más, cuáles son los productos más vendidos.
+                
+            \end{itemize}
+    
+    
+        % ============================================
+        % =========        TECNOLOGIA       ==========
+        % ============================================
+        \subsection{Tecnologías a Usar}
+        
+            \begin{itemize}
+                \item 
+                    Para el Backend de nuestro sistema usaremos NodeJS y Express como framework
+                    sobre el mismo para agilizar la creación de una web app completa en Javascript
+                    
+                    Puedes aprender más de él en:
+                    \href{https://nodejs.org/en/about/}{\underline{https://nodejs.org/en/about/}}
+                    
+                
+                \item
+                    Para el FrontEnd usaremos la libreria de React de Facebook para crear una interfaz
+                    de usuario basado en Compontentes en vez de la basada en Modelo-Vista-Controlador.
+                    
+                    Puedes aprender más de el en:
+                    \href{https://material.io/guidelines/}{\underline{https://material.io/guidelines/}}
+                    
+                \item
+                    Para hacer más fácil la creación de las interfaces de usuario vamos a crearlas
+                    usando MaterializeCSS, que es un Framework sobre CSS basado en las directivas de
+                    Google:
+                    \href{https://material.io/guidelines/}{\underline{https://material.io/guidelines/}}
+            \end{itemize}
+        
+
+
+    
+
+\end{document}
